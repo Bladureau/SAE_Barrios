@@ -9,7 +9,7 @@ import java.io.IOException;
  * La classe Huffman contient la méthode principale pour créer l'arbre de Huffman
  * et générer les codes pour chaque symbole.
  */
-public class Huffman {
+public class CalculCaractere {
     
     // Le fichier à lire
     static File fichierALire = new File("FichierACompter.txt");
@@ -73,19 +73,19 @@ public class Huffman {
         String line;
         while ((line = br.readLine()) != null) {
             for (char c : line.toCharArray()) {
-                if (Character.isLetter(c)) {
+                if (Character.isDefined(c)) {
                     count++;
                 }
             }
         }
-    
+        
         br.close();
         fr.close();
     
         return count;
     }
     
-
+    
 
     public static void main(String[] args) throws IOException {
         String fileName = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
