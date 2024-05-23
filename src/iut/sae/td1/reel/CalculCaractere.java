@@ -18,7 +18,7 @@ public class CalculCaractere {
     String[] symboles = {};
 
     // Tableau des frequences 
-    int[] frequences = {};
+    double[] frequences = {};
 
     /**
      * Permet de trier un tableau en utilisant la méthode par insertion
@@ -58,6 +58,8 @@ public class CalculCaractere {
         return compteurStr;
     }
 
+
+
     /**
      * Permet de savoir le nombre de lettre total dans un fichier 
      * @return le nombre de caractères dans le fichier
@@ -85,7 +87,11 @@ public class CalculCaractere {
         return count;
     }
     
-    
+    private static double tauxApparition(int occurenceLettre, int occurenceTotal) {
+        double tauxAppartion;
+        tauxAppartion = occurenceLettre/occurenceTotal;
+        return tauxAppartion;
+    }
 
     public static void main(String[] args) throws IOException {
         String fileName = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
