@@ -113,27 +113,6 @@ public class CalculCaractere {
         assembleur.put(lettre, tauxApparition);
         return assembleur;
     }
-
-    /**
-     * Trie un HashMap par valeur.
-     *
-     * @param map Le HashMap à trier.
-     * @return Le HashMap trié par valeur.
-     */
-    public static HashMap<String, Double> triAvecValeur(HashMap<String, Double> map){
-        List<Map.Entry<String, Double>> list = new LinkedList<Map.Entry<String, Double>>(map.entrySet());
-    
-        Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
-            public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2 ) {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
-
-        HashMap<String, Double> map_apres = new LinkedHashMap<String, Double>();
-        for(Map.Entry<String, Double> entry : list)
-        map_apres.put( entry.getKey(), entry.getValue() );
-        return map_apres;
-    }
     
     public static void main(String[] args) throws IOException {
         String fichier = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
