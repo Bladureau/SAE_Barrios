@@ -29,8 +29,6 @@ public class CalculCaractere {
 
     private static char lettre = ' ';
 
-    private static String lettreStr;
-
     HashMap<String,Double> assembleur = new HashMap<String,Double>();
 
     /**
@@ -72,10 +70,10 @@ public class CalculCaractere {
                 }
             }
         }
-        
+
         br.close();
         fr.close();
-    
+
         return count;
     }
 
@@ -101,17 +99,17 @@ public class CalculCaractere {
 
 
     /**
-     * Permet de 
+     * Permet de lire les lettres qui ont été saisies dans le fichier.
      * @param nomFichier
      * @return
      * @throws IOException
      */
-    private static String lettreFichier(String nomFichier) throws IOException {
+    public static String lettreFichier(String nomFichier) throws IOException {
         fichierALire = new File(nomFichier);
         FileReader fr = new FileReader(fichierALire);
         BufferedReader br = new BufferedReader(fr);
         String line;
-
+        String lettreStr = "";
         while ((line = br.readLine()) != null) {
             for (char c : line.toCharArray()) {
                 if (Character.isDefined(c)) {
@@ -137,10 +135,6 @@ public class CalculCaractere {
         tauxApparition = occurenceLettre/occurenceTotal;
         return tauxApparition;
     }
-    
-    public String getLettre() {
-        return lettreStr;
-    }
 
     public static HashMap<String,Double> assemblerLettreTauxAppartion(String lettre, double tauxApparition)  {
         HashMap<String,Double> assembleur = new HashMap<String,Double>();
@@ -165,8 +159,8 @@ public class CalculCaractere {
     
     public static void main(String[] args) throws IOException {
         String fileName = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
-
-        
-        System.out.println(triAvecValeur(assemblerLettreTauxAppartion(lettreStr, tauxApparition)));
+        System.out.println(nombreCaractereTotal(fileName));
+        System.out.println(lettreFichier(fileName));
+        // System.out.println(triAvecValeur(assemblerLettreTauxAppartion(lettreStr, tauxApparition)));
     }
 }
