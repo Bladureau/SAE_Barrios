@@ -122,14 +122,14 @@ public class CalculCaractere {
         }
     }
 
-    public static Map<String, Integer> compterOccurences(String[] lettres) {
-        Map<String, Integer> occurences = new HashMap<>();
+    public static Map<String, Double> compterOccurencesDouble(String[] lettres) {
+        Map<String, Double> occurences = new HashMap<>();
         for (String lettre : lettres) {
             if (occurences.containsKey(lettre)) {
-                int count = occurences.get(lettre);
-                occurences.put(lettre, count + 1);
+                double count = occurences.get(lettre) + 1; // On utilise un double pour les occurrences
+                occurences.put(lettre, count);
             } else {
-                occurences.put(lettre, 1);
+                occurences.put(lettre, 1.0); // Valeur initiale de 1.0
             }
         }
         return occurences;
@@ -165,10 +165,10 @@ public class CalculCaractere {
         String fichier = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
 
         String[] lettres = extraireLettresTableauString(fichier);
-        if (lettres != null) {  
-            Map<String, Integer> occurences = compterOccurences(lettres);
-            System.out.println("\n\nOccurrences des lettres : ");
-            for (Map.Entry<String, Integer> entry : occurences.entrySet()) {
+        if (lettres != null) {
+            Map<String, Double> occurences = compterOccurencesDouble(lettres);
+            System.out.println("\n\nOccurrences des lettres (nombres décimaux possibles) : ");
+            for (Map.Entry<String, Double> entry : occurences.entrySet()) {
                 System.out.println(entry.getKey() + " : " + entry.getValue());
             }
         } else {
