@@ -27,10 +27,10 @@ public class CalculCaractere {
              BufferedReader br = new BufferedReader(fr)) {          // Lit le fichier défini dans le FileReader
             StringBuilder sb = new StringBuilder();                 // Permet de construire la châine de caractère plus facilement
             int c;
-            while ((c = br.read()) != -1) {                         // Permet de lire le fichier caractères par caractères tant qu'il ne rencontre pas la fin du fichier
+            while ((c = br.read()) != -1) {                         // Permet de lire le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
                 char lettre = (char) c;                             // Converti c en char puis on le mets dans lettre
                 if (Character.isLetter(lettre)) {                   // Si la lettre detecté est une lettre...
-                    sb.append(lettre);                              // .. si c'est le cas on l'ajoute dans le StringBuilder
+                    sb.append(lettre);                              // .. on l'ajoute dans le StringBuilder
                 }
             }
             return sb.toString().split("");                         // Transforme le StringBuilder en chaîne de caractères, puis le tableau de String est retourné
@@ -47,7 +47,7 @@ public class CalculCaractere {
      */
     public static Map<String, Double> compterOccurencesDouble(String[] lettres) {
         Map<String, Double> occurences = new HashMap<>();           // Initialisation de la HashMap pour stocké les occurences des maps
-        for (String lettre : lettres) {                             // Cette boucle permet de mettre les éléments du tableau lettres en paramètres dans la variable lettre
+        for (String lettre : lettres) {                             // Cette boucle permet de mettre les éléments du tableau lettres en paramètres, dans la variable lettre
             if (occurences.containsKey(lettre)) {                   // Si la lettre est présente dans la HashMap...
                 double count = occurences.get(lettre) + 1;          // ... On récupère le nombre d'occurence de la lettre puis on l'incremente de 1...
                 occurences.put(lettre, count);                      // ... Puis on met à jour le nombre d'occurence de la lettre en question.
