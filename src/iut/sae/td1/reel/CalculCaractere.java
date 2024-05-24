@@ -1,7 +1,6 @@
 package iut.sae.td1.reel;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
@@ -11,80 +10,21 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
- * La classe Huffman contient la méthode principale pour créer l'arbre de Huffman
- * et générer les codes pour chaque symbole.
+ * La classe CalculCaractere contient des méthodes pour compter les occurrences d'un caractère spécifique dans une chaîne,
+ * extraire les lettres d'un fichier dans un tableau de String, compter les occurrences de chaque lettre dans le tableau,
+ * trier les lettres par leur taux d'apparition, calculer les taux d'apparition de chaque lettre,
+ * et assembler un HashMap contenant une lettre et son taux d'apparition.
  */
 public class CalculCaractere {
-    
-    // Le fichier à lire
-    static File fichierALire = new File("FichierACompter.txt");
-
-    private int compteurOccurence = 0;
-
-    private static double tauxApparition = 0.0;
-
-    private static int count = 0;
-
-    private static char lettre = ' ';
-
-    HashMap<String,Double> assembleur = new HashMap<String,Double>();
-
     /**
-     * Permet de trier un tableau en utilisant la méthode par insertion
-     * @param tab tableau a trier
-     */
-
-    /*
-    public static void triInsertion(int tab[]) {
-        int taille = tab.length;
-        for (int indexI = 1; indexI < taille; indexI++) {
-            int valeurI = tab[indexI];
-            int valeurJ = indexI-1;
-
-            while (valeurJ >= 0 && tab[valeurJ] > valeurI) {
-                tab[valeurJ+1] = tab[valeurJ];
-                valeurJ--;
-            }
-            tab[valeurJ+1] = valeurI;
-        }
-    }
-    */
-    /**
-     * Permet de savoir le nombre de lettre total dans un fichier 
-     * @return le nombre de caractères dans le fichier
-     * @throws IOException si le fichier n'arrive pas à être lu ou
-     *                     ou qu'il n'existe pas.
-     */
-    private static int nombreCaractereTotal(String nomFichier) throws IOException {
-        fichierALire = new File(nomFichier);
-        FileReader fr = new FileReader(fichierALire);
-        BufferedReader br = new BufferedReader(fr);
-
-        String line;
-        while ((line = br.readLine()) != null) {
-            for (char c : line.toCharArray()) {
-                if (Character.isDefined(c)) {
-                    count++;
-                }
-            }
-        }
-
-        br.close();
-        fr.close();
-
-        return count;
-    }
-
-    /**
-     * Permet de compter le nombre de lettre entre une chaine de 
-     * caractère et une lettre choisi
-     * @param chaineACompter Chaine de caractère a compter
-     * @param lettreACompter Lettre a comparer avec la chaine de 
-     *                       caractère.
-     * @return  le nombre de lettre en commun entre la chaine de 
-     *          caractère et la lettre choisie.
+     * Compte le nombre d'occurrences d'un caractère spécifique dans une chaîne.
+     *
+     * @param chaineACompter La chaîne dans laquelle compter les occurrences du caractère.
+     * @param lettreAComparer Le caractère dont il faut compter les occurrences.
+     * @return Le nombre d'occurrences du caractère dans la chaîne.
      */
     public static String compterOccurence(String chaineACompter, String lettreAComparer) {
         int compteurOccurence = 0;
@@ -99,10 +39,10 @@ public class CalculCaractere {
 
 
     /**
-     * Permet de lire les lettres qui ont été saisies dans le fichier.
-     * @param nomFichier
-     * @return
-     * @throws IOException
+     * Compte les occurrences de chaque lettre dans un tableau de String.
+     *
+     * @param lettres Le tableau de String contenant les lettres à compter.
+     * @return Une Map contenant chaque lettre et son nombre d'occurrences.
      */
     public static String[] extraireLettresTableauString(String fichier) throws IOException {
         try (FileReader fr = new FileReader(fichier);
@@ -122,6 +62,12 @@ public class CalculCaractere {
         }
     }
 
+    /**
+     * Trie les lettres par leur taux d'apparition.
+     *
+     * @param occurences La Map contenant les lettres et leurs occurrences.
+     * @return La Map triée par taux d'apparition.
+     */
     public static Map<String, Double> compterOccurencesDouble(String[] lettres) {
         Map<String, Double> occurences = new HashMap<>();
         for (String lettre : lettres) {
@@ -135,9 +81,31 @@ public class CalculCaractere {
         return occurences;
     }
 
-    public static double calculTauxApparition(int occurenceLettre, int occurenceTotal) {
-        tauxApparition = occurenceLettre/occurenceTotal;
-        return tauxApparition;
+    /**
+     * Calcule les taux d'apparition de chaque lettre.
+     *
+     * @param occurences La Map contenant les lettres et leurs occurrences.
+     * @param nombreLettresTotal Le nombre total de lettres.
+     */
+    public static Map<String, Double> trierTauxApparition(Map<String, Double> occurences) {
+        Map<String, Double> occurencesTriees = new TreeMap<>(Comparator.comparingDouble(occurences::get)); // Trie par valeur (occurrences)
+        occurencesTriees.putAll(occurences);
+        return occurencesTriees;
+    }
+
+    /**
+     * Assemble une lettre et son taux d'apparition dans un HashMap.
+     *
+     * @param lettre La lettre à assembler.
+     * @param tauxApparition Le taux d'apparition de la lettre.
+     * @return Le HashMap contenant la lettre et son taux d'apparition.
+     */
+    public static void calculerTauxApparition(Map<String, Double> occurences, int nombreLettresTotal) {
+        System.out.println("\n\nTaux d'apparition des lettres (triés croissants) : ");
+        for (Map.Entry<String, Double> entry : occurences.entrySet()) {
+            double taux = (entry.getValue() / nombreLettresTotal) * 100; // Taux en pourcentage
+            System.out.println(entry.getKey() + " : " + String.format("%.2f", taux) + "%"); // Formatage à 2 décimales
+        }
     }
 
     public static HashMap<String,Double> assemblerLettreTauxAppartion(String lettre, double tauxApparition)  {
@@ -146,9 +114,15 @@ public class CalculCaractere {
         return assembleur;
     }
 
+    /**
+     * Trie un HashMap par valeur.
+     *
+     * @param map Le HashMap à trier.
+     * @return Le HashMap trié par valeur.
+     */
     public static HashMap<String, Double> triAvecValeur(HashMap<String, Double> map){
         List<Map.Entry<String, Double>> list = new LinkedList<Map.Entry<String, Double>>(map.entrySet());
-
+    
         Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
             public int compare(Map.Entry<String, Double> o1, Map.Entry<String, Double> o2 ) {
                 return (o1.getValue()).compareTo(o2.getValue());
@@ -166,11 +140,11 @@ public class CalculCaractere {
 
         String[] lettres = extraireLettresTableauString(fichier);
         if (lettres != null) {
+            int nombreLettresTotal = lettres.length;
+
             Map<String, Double> occurences = compterOccurencesDouble(lettres);
-            System.out.println("\n\nOccurrences des lettres (nombres décimaux possibles) : ");
-            for (Map.Entry<String, Double> entry : occurences.entrySet()) {
-                System.out.println(entry.getKey() + " : " + entry.getValue());
-            }
+            Map<String, Double> occurencesTriees = trierTauxApparition(occurences);
+            calculerTauxApparition(occurencesTriees, nombreLettresTotal);
         } else {
             System.err.println("Échec de l'extraction des lettres.");
         }
