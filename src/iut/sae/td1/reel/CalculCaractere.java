@@ -104,23 +104,19 @@ public class CalculCaractere {
      * @return
      * @throws IOException
      */
-    public static String lettreFichier(String nomFichier) throws IOException {
-        fichierALire = new File(nomFichier);
-        FileReader fr = new FileReader(fichierALire);
-        BufferedReader br = new BufferedReader(fr);
-        String line;
-        String lettreStr = "";
-        while ((line = br.readLine()) != null) {
-            for (char c : line.toCharArray()) {
-                if (Character.isDefined(c)) {
-                    lettre = c;
-                    lettreStr = String.valueOf(c);
+    public static void lettreFichier(String nomFichier) throws IOException {
+        try (FileReader fr = new FileReader(nomFichier);
+             BufferedReader br = new BufferedReader(fr)) {
+            int c;
+            while ((c = br.read()) != -1) {
+                char lettre = (char) c;
+                if (Character.isLetter(lettre)) {
+                    System.out.print(lettre);
                 }
             }
-            br.close();
-            fr.close();
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la lecture du fichier : " + e.getMessage());
         }
-        return lettreStr;
     }
     
     public int getCount() {
@@ -160,7 +156,7 @@ public class CalculCaractere {
     public static void main(String[] args) throws IOException {
         String fileName = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
         System.out.println(nombreCaractereTotal(fileName));
-        System.out.println(lettreFichier(fileName));
+        lettreFichier(fileName);
         // System.out.println(triAvecValeur(assemblerLettreTauxAppartion(lettreStr, tauxApparition)));
     }
 }
