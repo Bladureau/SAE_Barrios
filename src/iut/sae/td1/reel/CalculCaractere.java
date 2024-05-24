@@ -106,7 +106,8 @@ public class CalculCaractere {
      */
     public static void lettreFichier(String nomFichier) throws IOException {
         try (FileReader fr = new FileReader(nomFichier);
-             BufferedReader br = new BufferedReader(fr)) {
+             BufferedReader br = new BufferedReader(fr)
+            ) {
             int c;
             while ((c = br.read()) != -1) {
                 char lettre = (char) c;
