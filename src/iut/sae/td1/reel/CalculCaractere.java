@@ -104,28 +104,35 @@ public class CalculCaractere {
      * @return
      * @throws IOException
      */
-    public static void lettreFichier(String nomFichier) throws IOException {
-        try (FileReader fr = new FileReader(nomFichier);
-             BufferedReader br = new BufferedReader(fr)
-            ) {
+    public static String[] extraireLettresTableauString(String fichier) throws IOException {
+        try (FileReader fr = new FileReader(fichier);
+             BufferedReader br = new BufferedReader(fr)) {
+            StringBuilder sb = new StringBuilder();
             int c;
             while ((c = br.read()) != -1) {
                 char lettre = (char) c;
                 if (Character.isLetter(lettre)) {
-                    System.out.print(lettre);
+                    sb.append(lettre);
                 }
             }
+            return sb.toString().split(""); // Sépare la chaîne en un tableau de String
         } catch (IOException e) {
             System.err.println("Erreur lors de la lecture du fichier : " + e.getMessage());
+            return null;
         }
     }
-    
-    public int getCount() {
-        return count;
-    }
 
-    public int getNombreCaractere() {
-        return compteurOccurence;
+    public static Map<String, Integer> compterOccurences(String[] lettres) {
+        Map<String, Integer> occurences = new HashMap<>();
+        for (String lettre : lettres) {
+            if (occurences.containsKey(lettre)) {
+                int count = occurences.get(lettre);
+                occurences.put(lettre, count + 1);
+            } else {
+                occurences.put(lettre, 1);
+            }
+        }
+        return occurences;
     }
 
     public static double calculTauxApparition(int occurenceLettre, int occurenceTotal) {
@@ -155,9 +162,18 @@ public class CalculCaractere {
     }
     
     public static void main(String[] args) throws IOException {
-        String fileName = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
-        System.out.println(nombreCaractereTotal(fileName));
-        lettreFichier(fileName);
+        String fichier = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
+
+        String[] lettres = extraireLettresTableauString(fichier);
+        if (lettres != null) {  
+            Map<String, Integer> occurences = compterOccurences(lettres);
+            System.out.println("\n\nOccurrences des lettres : ");
+            for (Map.Entry<String, Integer> entry : occurences.entrySet()) {
+                System.out.println(entry.getKey() + " : " + entry.getValue());
+            }
+        } else {
+            System.err.println("Échec de l'extraction des lettres.");
+        }
         // System.out.println(triAvecValeur(assemblerLettreTauxAppartion(lettreStr, tauxApparition)));
     }
 }
