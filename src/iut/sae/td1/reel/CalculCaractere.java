@@ -29,7 +29,7 @@ public class CalculCaractere {
             int c;
             while ((c = br.read()) != -1) {                         // Permet de lire le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
                 char lettre = (char) c;                             // Converti c en char puis on le mets dans lettre
-                if (Character.isLetter(lettre)) {                   // Si la lettre detecté est une lettre...
+                if (Character.isDefined(lettre)) {                   // Si la lettre detecté est une lettre...
                     sb.append(lettre);                              // .. on l'ajoute dans le StringBuilder
                 }
             }
@@ -52,7 +52,7 @@ public class CalculCaractere {
                 double count = occurences.get(lettre) + 1;          // ... On récupère le nombre d'occurence de la lettre puis on l'incremente de 1...
                 occurences.put(lettre, count);                      // ... Puis on met à jour le nombre d'occurence de la lettre en question.
             } else {                                                // Sinon si la letre n'est pas présente dans la HashMap...
-                occurences.put(lettre, 1.0);                        // ... On initialise la valeur de la lettre a 1.0
+                occurences.put(lettre, 1.0);                  // ... On initialise la valeur de la lettre a 1.0
             }
         }
         return occurences;                                          // On retourne la Map occurences.
@@ -78,10 +78,10 @@ public class CalculCaractere {
      * @param nombreLettresTotal Le nombre total de lettres.
      */
     public static void calculerTauxApparition(Map<String, Double> occurences, int nombreLettresTotal) {
-        System.out.println("\n\nTaux d'apparition des lettres (triés croissants) : ");          // Temporaire (débug)
+        System.out.println("\n\nTaux d'apparition des lettres (triés croissants) : ");        // Temporaire (débug)
         for (Map.Entry<String, Double> entry : occurences.entrySet()) {                         // La variable entry représente l'entrée courante de la Map, contenant la lettre et le nombre d'occurrences.
             double taux = (entry.getValue() / nombreLettresTotal);                              // Puis on extait la lettre avec entry.getValue()...
-            System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));           // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
+            System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));    // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
         }
     }
     
