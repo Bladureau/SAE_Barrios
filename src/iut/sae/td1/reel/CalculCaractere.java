@@ -18,7 +18,7 @@ public class CalculCaractere {
 
     /**
      * Extraie toutes les lettres d'un fichier.
-     * @param fichier Le nom du fichier qui doit être analyser.
+     * @param fichier Le nom du fichier qui doit être analysé.
      * @return Un tableau de String
      * @throws IOException si le fichier n'est pas détecter ou qu'il y a un probleme de lecture
      */
@@ -87,7 +87,6 @@ public class CalculCaractere {
     
     public static void main(String[] args) throws IOException {
         String fichier = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
-
         String[] lettres = extraireLettresTableauString(fichier);
         if (lettres != null) {
             int nombreLettresTotal = lettres.length;
