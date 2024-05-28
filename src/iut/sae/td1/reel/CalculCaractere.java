@@ -55,7 +55,6 @@ public class CalculCaractere {
                 occurences.put(lettre, 1.0);                  // ... On initialise la valeur de la lettre a 1.0
             }
         }
-        System.out.println(occurences);
         return occurences;                                          // On retourne la Map occurences.
     }
 
