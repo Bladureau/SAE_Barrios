@@ -14,7 +14,7 @@ import java.util.TreeMap;
  * trier les lettres par leur taux d'apparition, calculer les taux d'apparition de chaque lettre,
  * et assembler un HashMap contenant une lettre et son taux d'apparition.
  */
-public class CalculCaractere {    
+public class CalculCaractere {
 
     /**
      * Extraie toutes les lettres d'un fichier.
