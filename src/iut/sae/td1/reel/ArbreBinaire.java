@@ -31,6 +31,8 @@ public class ArbreBinaire  {
 			this.caractere = entry.getKey();
 			this.frequence = entry.getValue();
 		}
+
+		// Créer une node et affecter dasn la boucle les caractères et fréquences a la node.
 		this.droit = null;
 		this.gauche = null;
 		System.out.print(caractere + " : ");
@@ -66,5 +68,8 @@ public class ArbreBinaire  {
 			    + "\n fils Droit : " + this.droit.getValue()
 				+ "\n fils Gauche : " + this.gauche.getValue();
 	}
+
+// TODO Classe creerArbre
+	public 
 }
 
