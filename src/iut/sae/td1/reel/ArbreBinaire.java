@@ -13,23 +13,23 @@ package iut.sae.td1.reel;
  */
 public class ArbreBinaire  {
 
-	private char caractereValeur;
+	private char caractere;
 	private ArbreBinaire filsDroit;
 	private ArbreBinaire filsGauche;
 	
 	public ArbreBinaire(char caractere) {
-		caractereValeur = caractere;
-		//filsDroit = filsDroitConst;
-		//filsGauche = filsGaucheConst;
+		this.caractere = caractere;
+		// filsDroit = filsDroitConst;
+		// filsGauche = filsGaucheConst;
 		
 	}
 	
 	public char getValue(){
-		return this.caractereValeur;
+		return this.caractere;
 	}
 	
 	public void setValue(char nouvelleValeur) {
-		this.caractereValeur = nouvelleValeur;
+		this.caractere = nouvelleValeur;
 	}
 	
 	public ArbreBinaire getFilsDroit() {
@@ -49,7 +49,7 @@ public class ArbreBinaire  {
 	}
     
 	public String toString() {
-		return this.caractereValeur 
+		return this.caractere 
 			    + "\n fils Droit : " + this.filsDroit.getValue()
 				+ "\n fils Gauche : " + this.filsGauche.getValue();
 	}

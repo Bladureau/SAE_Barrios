@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Scanner;
 
 /**
  * La classe CalculCaractere contient des méthodes pour compter les occurrences d'un caractère spécifique dans une chaîne,
@@ -92,23 +91,6 @@ public class CalculCaractere {
         for (Map.Entry<String, Double> entry : occurences.entrySet()) {                         // La variable entry représente l'entrée courante de la Map, contenant la lettre et le nombre d'occurrences.
             double taux = (entry.getValue() / nombreLettresTotal);                              // Puis on extait la lettre avec entry.getValue()...
             System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));    // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
-        }
-    }
-    
-    public static void main(String[] args) throws IOException {
-        System.out.print("Entrez le nom du fichier a compréssé suivi de l'extension (nom_du_fichier.txt) : ");
-        Scanner analyseurEntree = new Scanner(System.in);
-        String fichier = analyseurEntree.nextLine();
-        analyseurEntree.close();
-        String[] lettres = extraireLettresTableauString(fichier);
-        if (lettres != null) {
-            int nombreLettresTotal = lettres.length;
-
-            Map<String, Double> occurences = compterOccurencesDouble(lettres);
-            Map<String, Double> occurencesTriees = trierParValeur(occurences);
-            calculerTauxApparition(occurencesTriees, nombreLettresTotal);
-        } else {
-            System.err.println("Échec de l'extraction des lettres.");
         }
     }
 }
