@@ -36,24 +36,19 @@ public class CompresserDecompresser {
 	}
 	
 	/**
-	 * Demande le nom du fichier à compresser/décompresser 
+	 * Demande le nom du fichier à compresser/décompresser
 	 * sur ligne de commande (nom_du_fichier.txt)
 	 * appelle les fonctions de compression ou décompression 
 	 * selon la demande de l'utilisateur
 	 * @param args non utilisé
-	 * @throws IOException 
+	 * @throws IOException si le nom du fichier est invalide ou n'existe pas.
 	 */
 	public static void main(String[] args) throws IOException {
-		
 		String fichier;
-		
 		Scanner analyseurEntree = new Scanner(System.in);
-		
 		System.out.print("Entrez le nom du fichier a compréssé suivi de l'extension (nom_du_fichier.txt) : ");
-        
         fichier = analyseurEntree.nextLine();
         analyseurEntree.close();
-        
         compresser(fichier);
 	}
 }
