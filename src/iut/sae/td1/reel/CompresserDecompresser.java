@@ -28,7 +28,8 @@ public class CompresserDecompresser {
 
             Map<String, Double> occurences = CalculCaractere.compterOccurencesDouble(lettres);
             Map<String, Double> occurencesTriees = CalculCaractere.trierParValeur(occurences);
-            CalculCaractere.calculerTauxApparition(occurencesTriees, nombreLettresTotal);
+            Map<String,Double> mapLettreTaux = CalculCaractere.calculerTauxApparition(occurencesTriees, nombreLettresTotal);
+			ArbreBinaire arbreBinaireLettreTaux = new ArbreBinaire(mapLettreTaux);
         } else {
             System.err.println("Échec de l'extraction des lettres.");
         }

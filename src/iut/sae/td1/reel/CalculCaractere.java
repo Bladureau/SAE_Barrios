@@ -86,11 +86,15 @@ public class CalculCaractere {
      * @param occurences La Map contenant les lettres et leurs occurrences.
      * @param nombreLettresTotal Le nombre total de lettres.
      */
-    public static void calculerTauxApparition(Map<String, Double> occurences, int nombreLettresTotal) {
-        System.out.println("\n\nTaux d'apparition des lettres (triés croissants) : ");        // Temporaire (débug)
+    public static Map<String,Double> calculerTauxApparition(Map<String, Double> occurences, int nombreLettresTotal) {
+        // System.out.println("\n\nTaux d'apparition des lettres (triés croissants) : ");        // Temporaire (débug)
+        Map<String,Double> lettreTaux = new HashMap<>();
         for (Map.Entry<String, Double> entry : occurences.entrySet()) {                         // La variable entry représente l'entrée courante de la Map, contenant la lettre et le nombre d'occurrences.
             double taux = (entry.getValue() / nombreLettresTotal);                              // Puis on extait la lettre avec entry.getValue()...
-            System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));    // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
+            //System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));    // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
+            lettreTaux.put(entry.getKey(), taux);
         }
+        //System.out.println(lettreTaux);
+        return lettreTaux;
     }
 }
