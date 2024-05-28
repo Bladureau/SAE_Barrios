@@ -55,21 +55,31 @@ public class CalculCaractere {
                 occurences.put(lettre, 1.0);                  // ... On initialise la valeur de la lettre a 1.0
             }
         }
+        System.out.println(occurences);
         return occurences;                                          // On retourne la Map occurences.
     }
 
     /**
-     * Trie les lettres par leur taux d'apparition.
-     * @param occurences La Map contenant les lettres et leurs occurrences.
-     * @return La Map triée par taux d'apparition.
+     * Sorts a map by its values in descending order.
+     * 
+     * @param <K> the type of the keys in the map
+     * @param <V> the type of the values in the map, which must implement {@link Comparable}
+     * @param map the map to be sorted
+     * @return a new map with the same key-value pairs, but sorted by the values in descending order
      */
-    public static Map<String, Double> trierTauxApparition(Map<String, Double> occurences) {
-        Map<String, Double> occurencesTriees                        // Initialise la map occurencesTriees.
-            = new TreeMap<>                                         // Structure qui permet de trier automatiquement les éléments qui la composent.
-                (Comparator.comparingDouble(                        // Le Comparator définit comment les éléments de la Map soivent être comparés pour le tri.
-                    occurences::get));                              // On compare les nombres d'occurences (de type double) des lettres.
-        occurencesTriees.putAll(occurences);                        // Copie les associations clé-valeur de la Map occurences dans la Map occurencesTriees.
-        return occurencesTriees;                                    // Retourne la Map triées.
+    public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
+        Comparator<K> valueComparator =  new Comparator<K>() {
+            public int compare(K k1, K k2) {                            // Méthode de comparaison 
+                int compare = map.get(k2)                               // 1) Récupere la clé de k2 
+                                 .compareTo(                            // 3) si k2 < k1, compareTo renvoie une valeur < 0 ; si k2 = k1 ca renvoie 0 ; si k2 > k1 ca renvoie une valeur > 0.
+                                    map.get(k1));                       // 2) Récupere la clé de k1
+                if (compare == 0) return 1;                             // si les deux valeurs sont égales, on renvoie 1 pour garantir un ordre de tri cohérent.
+                else return compare;                                    // ... sinon ca renvoie la valeur de compare.
+            }
+        };
+        Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);  // On crée une nouvelle Map de type TreeMap pour trié automatiquement les valeurs comparées 
+        sortedByValues.putAll(map);                                     // On copie toutes les valeurs de map dans la nouvelle map 
+        return sortedByValues;                                          // On retourne la Map triés 
     }
 
     /**
@@ -92,7 +102,7 @@ public class CalculCaractere {
             int nombreLettresTotal = lettres.length;
 
             Map<String, Double> occurences = compterOccurencesDouble(lettres);
-            Map<String, Double> occurencesTriees = trierTauxApparition(occurences);
+            Map<String, Double> occurencesTriees = sortByValues(occurences);
             calculerTauxApparition(occurencesTriees, nombreLettresTotal);
         } else {
             System.err.println("Échec de l'extraction des lettres.");
