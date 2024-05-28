@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Scanner;
 
 /**
  * La classe CalculCaractere contient des méthodes pour compter les occurrences d'un caractère spécifique dans une chaîne,
@@ -27,15 +28,15 @@ public class CalculCaractere {
              BufferedReader br = new BufferedReader(fr)) {          // Lit le fichier défini dans le FileReader
             StringBuilder sb = new StringBuilder();                 // Permet de construire la châine de caractère plus facilement
             int c;
-            while ((c = br.read()) != -1) {                         // Permet de lire le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
-                char lettre = (char) c;                             // Converti c en char puis on le mets dans lettre
-                if (Character.isDefined(lettre)) {                   // Si la lettre detecté est une lettre...
-                    sb.append(lettre);                              // .. on l'ajoute dans le StringBuilder
+            while ((c = br.read()) != -1) {                         // Lis le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
+                char lettre = (char) c;                             // Converti c en char puis on le mets dans la variable lettre
+                if (Character.isDefined(lettre)) {                  // Si la lettre detecté est une lettre...
+                    sb.append(lettre);                              // ... on l'ajoute dans le StringBuilder
                 }
             }
-            return sb.toString().split("");                         // Transforme le StringBuilder en chaîne de caractères, puis le tableau de String est retourné
+            return sb.toString().split("");                   // Transforme le StringBuilder en chaîne de caractères, puis le tableau de String est retourné
         } catch (IOException e) {                                   
-            System.err.println("Erreur lors de la lecture du fichier : " + e.getMessage());
+            System.err.println("Erreur lors de la lecture du fichier" + e.getMessage());
             return null;
         }
     }
@@ -66,7 +67,7 @@ public class CalculCaractere {
      * @param map the map to be sorted
      * @return a new map with the same key-value pairs, but sorted by the values in descending order
      */
-    public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
+    public static <K, V extends Comparable<V>> Map<K, V> trierParValeur(final Map<K, V> map) {
         Comparator<K> valueComparator =  new Comparator<K>() {
             public int compare(K k1, K k2) {                            // Méthode de comparaison 
                 int compare = map.get(k2)                               // 1) Récupere la clé de k2 
@@ -95,13 +96,16 @@ public class CalculCaractere {
     }
     
     public static void main(String[] args) throws IOException {
-        String fichier = "FichierACompter.txt"; // Remplacez par le nom de votre fichier
+        System.out.print("Entrez le nom du fichier a compréssé suivi de l'extension (nom_du_fichier.txt) : ");
+        Scanner analyseurEntree = new Scanner(System.in);
+        String fichier = analyseurEntree.nextLine();
+        analyseurEntree.close();
         String[] lettres = extraireLettresTableauString(fichier);
         if (lettres != null) {
             int nombreLettresTotal = lettres.length;
 
             Map<String, Double> occurences = compterOccurencesDouble(lettres);
-            Map<String, Double> occurencesTriees = sortByValues(occurences);
+            Map<String, Double> occurencesTriees = trierParValeur(occurences);
             calculerTauxApparition(occurencesTriees, nombreLettresTotal);
         } else {
             System.err.println("Échec de l'extraction des lettres.");
