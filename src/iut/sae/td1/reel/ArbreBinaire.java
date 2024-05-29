@@ -3,13 +3,7 @@
  */
 package iut.sae.td1.reel;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Construire un arbre binaire (chaque noeud a au plus 2 fils), à 
@@ -20,10 +14,19 @@ import java.util.TreeMap;
  *  LADUREAU Baptiste, MANZAN--MONS Tess
  */
 public class ArbreBinaire  {
-
+	/** Le caractere a analyser */
 	String caractere;
+
+	/** Le tableau qui permet de stocker les caractères deja analyser  */
+	String[] listeCaractere;
+
+	/** Le taux d'apparition de la lettre a analyser */
 	double frequence;
-	ArbreBinaire droit;
+	
+	/** Le tableau qui permet de stocker les taux d'apparition de la lettre deja analyser  */
+	double[] listeFrequence;
+	
+	ArbreBinaire droite;
 	ArbreBinaire gauche;
 	
 	/**
@@ -37,10 +40,10 @@ public class ArbreBinaire  {
 		}
 
 		// Créer une node et affecter dasn la boucle les caractères et fréquences a la node.
-		this.droit = null;
 		this.gauche = null;
-		System.out.print(caractere + " : ");
-		System.out.println(frequence);
+		this.droite = null;
+		// System.out.print(caractere + " : ");
+		// System.out.println(frequence);
 	}
 	
 	public String getValue(){
@@ -52,11 +55,11 @@ public class ArbreBinaire  {
 	}
 	
 	public ArbreBinaire getFilsDroit() {
-		return this.droit;
+		return this.droite;
 	}
 	
 	public void setFilsDroit(final ArbreBinaire PointeurVersAutreArbre) {
-		this.droit = PointeurVersAutreArbre;
+		this.droite = PointeurVersAutreArbre;
 	}
 	
 	public ArbreBinaire getFilsGauche() {
@@ -69,12 +72,7 @@ public class ArbreBinaire  {
     
 	public String toString() {
 		return this.caractere 
-			    + "\n fils Droit : " + this.droit.getValue()
+			    + "\n fils Droit : " + this.droite.getValue()
 				+ "\n fils Gauche : " + this.gauche.getValue();
 	}
-
-// TODO Classe creerArbre
-/*
-	public 
 }
-*/

@@ -78,7 +78,7 @@ public class CalculCaractere {
         };
         Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);  // On crée une nouvelle Map de type TreeMap pour trié automatiquement les valeurs comparées 
         sortedByValues.putAll(map);                                     // On copie toutes les valeurs de map dans la nouvelle map 
-        System.out.println(sortedByValues);
+        //System.out.println(sortedByValues);
         return sortedByValues;                                          // On retourne la Map triés 
     }
 
@@ -89,14 +89,14 @@ public class CalculCaractere {
      */
     public static Map<String,Double> calculerTauxApparition(Map<String, Double> occurences, int nombreLettresTotal) {
         // System.out.println("\n\nTaux d'apparition des lettres (triés croissants) : ");        // Temporaire (débug)
-        Map<String,Double> lettreTaux = new HashMap<>();
+        Map<String,Double> lettreTaux = new TreeMap<>();
         for (Map.Entry<String, Double> entry : occurences.entrySet()) {                         // La variable entry représente l'entrée courante de la Map, contenant la lettre et le nombre d'occurrences.
             double taux = (entry.getValue() / nombreLettresTotal);                              // Puis on extait la lettre avec entry.getValue()...
             //System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));    // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
             lettreTaux.put(entry.getKey(), taux);
             //System.out.println(lettreTaux);
         }
-        //System.out.println(lettreTaux);
+        System.out.println(lettreTaux);
         return lettreTaux;
     }
 }

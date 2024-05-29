@@ -57,7 +57,7 @@ class Node implements Comparable<Node> {
  * et générer les codes pour chaque symbole.
  */
 public class Huffman {
-    static char[] symboles = { 'a', 'b', 'c', 'd' };
+    static char[] symboles = {'a', 'b', 'c', 'd'};
     static double[] frequences = {0.10, 0.50, 0.30, 0.30};
 
     /**
