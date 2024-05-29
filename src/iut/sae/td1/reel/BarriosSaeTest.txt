@@ -1,0 +1,44 @@
+Maecenas dapibus nunc nec dictum auctor. Praesent nec hendrerit lectus, ac eleifend augue. Morbi imperdiet sollicitudin nibh nec faucibus. Nunc vel nunc id ipsum molestie pellentesque. In imperdiet metus sit amet leo consectetur, et accumsan nunc elementum. Praesent id eros viverra, venenatis est vehicula, hendrerit eros. : Integer aliquam, diam nec elementum porta, est nunc posuere massa, ut elementum elit augue eget neque. Cras ex leo, porttitor in tincidunt et, maximus id arcu. Orci varius natoque ? penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur dolor purus, viverra ut diam nec, imperdiet imperdiet metus. Praesent eu sollicitudin mi. Morbi sed erat et massa vehicula feugiat a in mi. Mauris sollicitudin non massa vitae pellentesque. Aliquam justo mauris, posuere in arcu ut, ultrices maximus nisl. Sed nec finibus nisi
+
+(731) [caractères]
+(129) [espace]
+860 
+(1) [saut de ligne]
+
+⎵ (spaces)	129
+e	97
+i	71
+u	62
+t	58
+n	54
+s	52
+a	49
+r	44
+m	34
+c	33
+l	28
+d	23
+o	23
+p	15
+,	14
+.	14
+v	10
+b	8
+g	6
+q	6
+h	5
+M	4
+f	4
+P	3
+x	3
+C	2
+I	2
+        1
+        1
+:	1
+?	1
+A	1
+N	1
+O	1
+S	1
+j	1
