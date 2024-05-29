@@ -1,8 +1,9 @@
 /* arbreBinaireTest                        28/05/2024
  * IUT rodez info1 2023-2024 , aucun droit d'auteur
  */
-package iut.sae.td1.reel;
+package iut.sae.td1.tests;
 
+import iut.sae.td1.reel.ArbreBinaire;
 
 public class ArbreBinaireTest {
 	

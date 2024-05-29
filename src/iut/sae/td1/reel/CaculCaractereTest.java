@@ -1,4 +1,4 @@
-package Huffman;
+package iut.sae.td1.reel;
 
 import java.util.HashMap;
 

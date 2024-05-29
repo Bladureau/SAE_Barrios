@@ -96,7 +96,6 @@ public class CalculCaractere {
             lettreTaux.put(entry.getKey(), taux);
             //System.out.println(lettreTaux);
         }
-        System.out.println(lettreTaux);
         return lettreTaux;
     }
 }
