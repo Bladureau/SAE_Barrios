@@ -78,6 +78,7 @@ public class CalculCaractere {
         };
         Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);  // On crée une nouvelle Map de type TreeMap pour trié automatiquement les valeurs comparées 
         sortedByValues.putAll(map);                                     // On copie toutes les valeurs de map dans la nouvelle map 
+        System.out.println(sortedByValues);
         return sortedByValues;                                          // On retourne la Map triés 
     }
 
@@ -93,6 +94,7 @@ public class CalculCaractere {
             double taux = (entry.getValue() / nombreLettresTotal);                              // Puis on extait la lettre avec entry.getValue()...
             //System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));    // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
             lettreTaux.put(entry.getKey(), taux);
+            //System.out.println(lettreTaux);
         }
         //System.out.println(lettreTaux);
         return lettreTaux;

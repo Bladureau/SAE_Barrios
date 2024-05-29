@@ -21,11 +21,15 @@ import java.util.TreeMap;
  */
 public class ArbreBinaire  {
 
-	String[] caractere;
-	double[] frequence;
+	String caractere;
+	double frequence;
 	ArbreBinaire droit;
 	ArbreBinaire gauche;
 	
+	/**
+	 * 
+	 * @param lettreTaux 
+	 */
 	public ArbreBinaire(Map<String,Double> lettreTaux) {
 		for (Map.Entry<String,Double> entry : lettreTaux.entrySet()) {
 			this.caractere = entry.getKey();
@@ -70,6 +74,7 @@ public class ArbreBinaire  {
 	}
 
 // TODO Classe creerArbre
+/*
 	public 
 }
-
+*/
