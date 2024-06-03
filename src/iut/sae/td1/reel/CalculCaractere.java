@@ -3,10 +3,6 @@ package iut.sae.td1.reel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * La classe CalculCaractere contient des méthodes pour compter les occurrences d'un caractère spécifique dans une chaîne,
@@ -16,6 +12,26 @@ import java.util.TreeMap;
  */
 public class CalculCaractere {
 
+    /** Liste des caractères temporaire. */
+    public static String[] caracteresTemp = new String[257];
+    
+    /** La fréquence du caractère. */
+    public double[] frequences = {};
+
+    /** Nombre de caracteres différents dans le fichier. */
+    public static int nbCaracteresDifferents;
+
+    /** Nombre d'occurences de chaque caractères. */
+    public static double[] occurenceCaracteres;
+
+    /** Liste des caractères a encoder. */
+    public static String[] caracteres;
+
+    /** Nombre total de caractères dans le fichier texte */
+    public static int nbCaracteresTotal;
+
+    
+    
     /**
      * Extraie toutes les lettres d'un fichier.
      * @param fichier Le nom du fichier qui doit être analysé.
@@ -25,77 +41,95 @@ public class CalculCaractere {
     public static String[] extraireLettresTableauString(String fichier) throws IOException {
         try (FileReader fr = new FileReader(fichier);               // Ouvre le fichier spécifié
              BufferedReader br = new BufferedReader(fr)) {          // Lit le fichier défini dans le FileReader
-            StringBuilder sb = new StringBuilder();                 // Permet de construire la châine de caractère plus facilement
-            int c;
-            while ((c = br.read()) != -1) {                         // Lis le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
-                char lettre = (char) c;                             // Converti c en char puis on le mets dans la variable lettre
-                if (Character.isDefined(lettre)) {                  // Si la lettre detecté est une lettre...
-                    sb.append(lettre);                              // ... on l'ajoute dans le StringBuilder
+                int c;
+                int indice = 0;
+                nbCaracteresTotal = 0;
+                boolean estPresent = false;
+                while ((c = br.read()) != -1) {                         // Lis le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
+                    char lettre = (char) c;                             // Converti c en char puis on le mets dans la variable lettre
+                    estPresent = false;
+                    for (int i = 0; i < caracteresTemp.length; i++) {
+                        if (String.valueOf(lettre).equals(caracteresTemp[i])) {
+                            estPresent = true;
+                            break;
+                        }
+                    }
+                    if (!estPresent) {
+                        caracteresTemp[indice] = String.valueOf(lettre);
+                        indice++;
+                    }
+                    //System.out.print(caracteres[j]);
+                    nbCaracteresTotal++;
                 }
-            }
-            return sb.toString().split("");                   // Transforme le StringBuilder en chaîne de caractères, puis le tableau de String est retourné
+                caracteresTemp[256] = Integer.toString(indice);
+                return caracteresTemp;
         } catch (IOException e) {                                   
             System.err.println("Erreur lors de la lecture du fichier" + e.getMessage());
             return null;
         }
     }
 
-    /**
-     * Compte les occurrences de chaque lettre puis renvoi un tableau de String.
-     * @param lettres Le tableau de String contenant les lettres à compter.
-     * @return Une Map contenant chaque lettre et son nombre d'occurrences.
-     */
-    public static Map<String, Double> compterOccurencesDouble(String[] lettres) {
-        Map<String, Double> occurences = new HashMap<>();           // Initialisation de la HashMap pour stocké les occurences des maps
-        for (String lettre : lettres) {                             // Cette boucle permet de mettre les éléments du tableau lettres en paramètres, dans la variable lettre
-            if (occurences.containsKey(lettre)) {                   // Si la lettre est présente dans la HashMap...
-                double count = occurences.get(lettre) + 1;          // ... On récupère le nombre d'occurence de la lettre puis on l'incremente de 1...
-                occurences.put(lettre, count);                      // ... Puis on met à jour le nombre d'occurence de la lettre en question.
-            } else {                                                // Sinon si la letre n'est pas présente dans la HashMap...
-                occurences.put(lettre, 1.0);                  // ... On initialise la valeur de la lettre a 1.0
+    public static double[] nombreOccurencesLettres(String[] caracteres, String fichier) {
+        try (FileReader fr = new FileReader(fichier);               // Ouvre le fichier spécifié
+             BufferedReader br = new BufferedReader(fr)) {          // Lit le fichier défini dans le FileReader
+                double[] nbOccurences = new double[caracteres.length];
+                int c;
+
+                while ((c = br.read()) != -1) {                         // Lis le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
+                    char lettre = (char) c;                             // Converti c en char puis on le mets dans la variable lettre
+                    for (int i = 0; i < caracteres.length; i++) {
+                        if (String.valueOf(lettre).equals(caracteres[i])) {
+                            nbOccurences[i] += 1;
+                            break;
+                        }
+                    }
+                }
+                return nbOccurences;
+            } catch (Exception e) {
+                System.err.println("Erreur lors de la lecture du fichier" + e.getMessage());
+                return null;
             }
-        }
-        return occurences;                                          // On retourne la Map occurences.
     }
 
-    /**
-     * Sorts a map by its values in descending order.
-     * 
-     * @param <K> the type of the keys in the map
-     * @param <V> the type of the values in the map, which must implement {@link Comparable}
-     * @param map the map to be sorted
-     * @return a new map with the same key-value pairs, but sorted by the values in descending order
-     */
-    public static <K, V extends Comparable<V>> Map<K, V> trierParValeur(final Map<K, V> map) {
-        Comparator<K> valueComparator =  new Comparator<K>() {
-            public int compare(K k1, K k2) {                            // Méthode de comparaison 
-                int compare = map.get(k2)                               // 1) Récupere la clé de k2 
-                                 .compareTo(                            // 3) si k2 < k1, compareTo renvoie une valeur < 0 ; si k2 = k1 ca renvoie 0 ; si k2 > k1 ca renvoie une valeur > 0.
-                                    map.get(k1));                       // 2) Récupere la clé de k1
-                if (compare == 0) return 1;                             // si les deux valeurs sont égales, on renvoie 1 pour garantir un ordre de tri cohérent.
-                else return compare;                                    // ... sinon ca renvoie la valeur de compare.
+    public static void tri_insertion() {
+        int taille = occurenceCaracteres.length;
+        for (int i = 1; i < taille; i++) {
+            double indexOccurences = occurenceCaracteres[i];
+            String indexCaracteres = caracteres[i];
+            int j = i-1;
+            while(j >= 0 && occurenceCaracteres[j] > indexOccurences) {
+                occurenceCaracteres[j+1] = occurenceCaracteres[j];
+                caracteres[j+1] = caracteres[j];
+                j--;
             }
-        };
-        Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);  // On crée une nouvelle Map de type TreeMap pour trié automatiquement les valeurs comparées 
-        sortedByValues.putAll(map);                                     // On copie toutes les valeurs de map dans la nouvelle map 
-        //System.out.println(sortedByValues);
-        return sortedByValues;                                          // On retourne la Map triés 
+            caracteres[j+1] = indexCaracteres;
+            occurenceCaracteres[j+1] = indexOccurences;
+        }  
+    }
+     
+    public static void calculerTauxApparition() {
+        for (int i = 0; i < occurenceCaracteres.length; i++) {
+            occurenceCaracteres[i] = occurenceCaracteres[i] / nbCaracteresTotal;
+        }
     }
 
-    /**
-     * Calcule les taux d'apparition de chaque lettre.
-     * @param occurences La Map contenant les lettres et leurs occurrences.
-     * @param nombreLettresTotal Le nombre total de lettres.
-     */
-    public static Map<String,Double> calculerTauxApparition(Map<String, Double> occurences, int nombreLettresTotal) {
-        // System.out.println("\n\nTaux d'apparition des lettres (triés croissants) : ");        // Temporaire (débug)
-        Map<String,Double> lettreTaux = new TreeMap<>();
-        for (Map.Entry<String, Double> entry : occurences.entrySet()) {                         // La variable entry représente l'entrée courante de la Map, contenant la lettre et le nombre d'occurrences.
-            double taux = (entry.getValue() / nombreLettresTotal);                              // Puis on extait la lettre avec entry.getValue()...
-            //System.out.println(entry.getKey() + " : " + String.format("%.4f", taux));    // ... et le nbre d'occurences avec entry.getKey() puis formate le taux d'apparition en chaîne de caractères avce 4 chiffres après la virgule.
-            lettreTaux.put(entry.getKey(), taux);
-            //System.out.println(lettreTaux);
+    public static void main(String[] args) throws IOException {
+        String fichier = "fichierACompter.txt";
+        
+        caracteresTemp = extraireLettresTableauString(fichier);
+        nbCaracteresDifferents = Integer.parseInt(caracteresTemp[256]);
+        occurenceCaracteres = new double[nbCaracteresDifferents];
+        caracteres = new String[nbCaracteresDifferents];
+        
+        for (int i = 0; i < caracteres.length; i++) {
+            caracteres[i] = caracteresTemp[i];
         }
-        return lettreTaux;
+        
+        occurenceCaracteres = nombreOccurencesLettres(caracteres, fichier);
+        tri_insertion();
+        calculerTauxApparition();
+        for (int i = 0; i < caracteres.length; i++) {
+            System.out.printf("%s : %.3f \n", caracteres[i], occurenceCaracteres[i]);
+        }
     }
 }

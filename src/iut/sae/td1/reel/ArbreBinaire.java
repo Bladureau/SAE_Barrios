@@ -3,13 +3,7 @@
  */
 package iut.sae.td1.reel;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Construire un arbre binaire (chaque noeud a au plus 2 fils), à 
@@ -38,8 +32,8 @@ public class ArbreBinaire  {
 		// Créer une node et affecter dasn la boucle les caractères et fréquences a la node.
 		this.droit = null;
 		this.gauche = null;
-		System.out.print(caractere + " : ");
-		System.out.println(frequence);
+		//System.out.print(caractere + " : ");
+		//System.out.println(frequence);
 	}
 }
 

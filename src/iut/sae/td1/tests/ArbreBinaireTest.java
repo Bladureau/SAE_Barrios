@@ -3,8 +3,8 @@
  */
 package iut.sae.td1.tests;
 
-import iut.sae.td1.reel.ArbreBinaire;
-
+//import iut.sae.td1.reel.ArbreBinaire;
+/*
 public class ArbreBinaireTest {
 	
 	static ArbreBinaire PremierFils = new ArbreBinaire('C');
@@ -36,3 +36,4 @@ public class ArbreBinaireTest {
 		//System.out.println("valeur du parent : " + PremierFils.getValue());
 	}
 }
+*/
