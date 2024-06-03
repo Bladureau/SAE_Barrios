@@ -27,6 +27,3 @@ public class ArbreBinaire  {
 		this.frequence = frequence;
 	}
 }
-
-
-
