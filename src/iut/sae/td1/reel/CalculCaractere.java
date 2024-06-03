@@ -29,8 +29,6 @@ public class CalculCaractere {
 
     /** Nombre total de caractères dans le fichier texte */
     public static int nbCaracteresTotal;
-
-    
     
     /**
      * Extraie toutes les lettres d'un fichier.
@@ -69,6 +67,13 @@ public class CalculCaractere {
         }
     }
 
+    /**
+     * Calcule le nombre d'occurences de chaque lettre dans le fichier texte.
+     * @param caracteres 
+     * @param fichier
+     * @return un tableau de double contenant les fréquences.
+     * @throws IOException si le fichier n'est pas détecter ou qu'il y a un probleme de lecture
+     */
     public static double[] nombreOccurencesLettres(String[] caracteres, String fichier) {
         try (FileReader fr = new FileReader(fichier);               // Ouvre le fichier spécifié
              BufferedReader br = new BufferedReader(fr)) {          // Lit le fichier défini dans le FileReader
@@ -85,12 +90,15 @@ public class CalculCaractere {
                     }
                 }
                 return nbOccurences;
-            } catch (Exception e) {
+            } catch (IOException e) {
                 System.err.println("Erreur lors de la lecture du fichier" + e.getMessage());
                 return null;
             }
     }
 
+    /**
+     * 
+     */
     public static void tri_insertion() {
         int taille = occurenceCaracteres.length;
         for (int i = 1; i < taille; i++) {
@@ -107,12 +115,20 @@ public class CalculCaractere {
         }  
     }
      
+    /**
+     * 
+     */
     public static void calculerTauxApparition() {
         for (int i = 0; i < occurenceCaracteres.length; i++) {
             occurenceCaracteres[i] = occurenceCaracteres[i] / nbCaracteresTotal;
         }
     }
 
+    /**
+     * 
+     * @param args
+     * @throws IOException si le fichier n'est pas détecter ou qu'il y a un probleme de lecture
+     */
     public static void main(String[] args) throws IOException {
         String fichier = "fichierACompter.txt";
         

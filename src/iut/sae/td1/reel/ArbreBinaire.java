@@ -14,26 +14,17 @@ import java.util.Map;
  */
 public class ArbreBinaire  {
 
-	String caractere;
-	double frequence;
+	public String[] caractere;
+
+	public double[] frequence;
+
 	ArbreBinaire droit;
+
 	ArbreBinaire gauche;
 	
-	/**
-	 * 
-	 * @param lettreTaux 
-	 */
-	public ArbreBinaire(Map<String,Double> lettreTaux) {
-		for (Map.Entry<String,Double> entry : lettreTaux.entrySet()) {
-			this.caractere = entry.getKey();
-			this.frequence = entry.getValue();
-		}
-
-		// Créer une node et affecter dasn la boucle les caractères et fréquences a la node.
-		this.droit = null;
-		this.gauche = null;
-		//System.out.print(caractere + " : ");
-		//System.out.println(frequence);
+	public ArbreBinaire(String[] caractere, double[] frequence) {
+		this.caractere = caractere;
+		this.frequence = frequence;
 	}
 }
 
