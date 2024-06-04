@@ -111,14 +111,11 @@ public class CalculCaractere {
         int taille = occurenceCaracteres.length;
         for (int i = 1; i < taille; i++) {
             double indexOccurences = occurenceCaracteres[i];
-            String indexCaracteres = caracteres[i];
             int j = i-1;
             while(j >= 0 && occurenceCaracteres[j] > indexOccurences) {
                 occurenceCaracteres[j+1] = occurenceCaracteres[j];
-                caracteres[j+1] = caracteres[j];
                 j--;
             }
-            caracteres[j+1] = indexCaracteres;
             occurenceCaracteres[j+1] = indexOccurences;
         }  
     }

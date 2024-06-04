@@ -10,11 +10,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Classe représentant un noeud dans l'arbre de Huffman.
+ */
 class Node implements Comparable<Node> {
-    /** Le symbole a encoder. */
+
+    /** Le caractere a encoder. */
     String caractere;
 	
-    /** La fréquence du symbole. */
+    /** La fréquence du caractere. */
     double frequence;
 
     /** Le noeud enfant gauche. */
@@ -24,9 +28,9 @@ class Node implements Comparable<Node> {
     Node droite;
 
     /**
-     * Construit un nouveau noeud avec le symbole donne.
-     * @param symbole Le symbole a encoder.
-     * @param fréquence La fréquence du symbole.
+     * Constructeur pour créer un nouveau noeud avec le caractère et la fréquence donnés.
+     * @param caractere Le caractère à encoder.
+     * @param frequence La fréquence du caractère.
      */
     Node(String caractere, double frequence) {
         this.caractere = caractere;
@@ -49,7 +53,7 @@ class Node implements Comparable<Node> {
 }
 /**
  * Créée un arbre binaire et sortir le code de Huffman correspondant
- * a une lettre.
+ * a une lettre ainsi que le code binaire du caractère.
  * @author MANZAN--MONS Tess
  * @author LADUREAU Baptiste
  * @author BONAFIS Louis
@@ -65,7 +69,7 @@ public class ArbreBinaire {
      * @param frequences Les fréquences des symboles (tableau de double).
      * @return La racine de l'arbre de Huffman.
      */
-    public static Node createTree(String[] caracteres, double[] frequences) {
+    public static Node genererArbre(String[] caracteres, double[] frequences) {
         // Crée une liste de nodes, un pour chaque symbole et sa fréquence
         List<Node> nodes = new ArrayList<>();
         for (int i = 0; i < caracteres.length; i++) {
@@ -93,7 +97,7 @@ public class ArbreBinaire {
      * @param caracteres Les symboles a encoder (tableau de String).
      * @return Les codes pour chaque symbole (tableau de String).
      */
-    public static String[] createCode(Node racine, String[] caracteres) {
+    public static String[] genererCode(Node racine, String[] caracteres) {
         String[] codes = new String[caracteres.length];
         StringBuilder code = new StringBuilder();
         dfs(racine, code, codes, caracteres);
@@ -129,6 +133,11 @@ public class ArbreBinaire {
         }
     }
 
+    /**
+     * Convertit un tableau de chaînes de caractères en un tableau de chaînes de caractères binaires.
+     * @param chaines Le tableau de chaînes de caractères à convertir.
+     * @return Le tableau de chaînes de caractères binaires.
+     */
     public static String[] convertirEnBinaireAvecGetBytes(String[] chaines) {
         String[] encode = new String[chaines.length];
         for (int i = 0; i < chaines.length; i++) {
@@ -142,13 +151,12 @@ public class ArbreBinaire {
         return encode;
     }
 
-
     /**
      * Affiche les codes pour chaque symbole.
      * @param codes Les codes pour chaque symbole.
      * @param caracteres Les symboles a encoder.
      */
-    public static void printCodes(String[] codes, String[] encodes, String[] caracteres) {
+    public static void affichierCode(String[] codes, String[] encodes, String[] caracteres) {
         for (int i = 0; i < caracteres.length; i++) {
             if (caracteres[i].equals(" ")) {
                 caracteres[i] = "espace";
@@ -190,10 +198,10 @@ public class ArbreBinaire {
         String[] encodes = convertirEnBinaireAvecGetBytes(caracteres);
 
         // Create the Huffman tree and generate the Huffman codes
-        Node racine = createTree(caracteres, occurenceCaracteres);
-        String[] codes = createCode(racine, caracteres);
+        Node racine = genererArbre(caracteres, occurenceCaracteres);
+        String[] codes = genererCode(racine, caracteres);
 
         // Print the Huffman codes for each character
-        printCodes(codes, encodes, caracteres);
+        affichierCode(codes, encodes, caracteres);
     }
 }
