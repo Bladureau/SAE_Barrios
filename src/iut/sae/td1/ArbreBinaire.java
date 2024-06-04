@@ -140,13 +140,13 @@ public class ArbreBinaire {
      */
     public static String[] convertirEnBinaireAvecGetBytes(String[] caractere) {
         String[] encodes = new String[caractere.length];
-        for (int indexCaractere = 0; indexCaractere < caractere.length; indexCaractere++) {
-            byte[] caracteresBinaire = caractere[indexCaractere].getBytes(StandardCharsets.UTF_8);
+        for (int i = 0; i < caractere.length; i++) {
+            byte[] caracteresBinaire = caractere[i].getBytes(StandardCharsets.UTF_8);
             StringBuilder resultat = new StringBuilder();
             for (byte compteur : caracteresBinaire) {
                 resultat.append(String.format("%8s", Integer.toBinaryString(compteur)).replace(' ', '0'));
             }
-            encodes[indexCaractere] = resultat.toString();
+            encodes[i] = resultat.toString();
         }
         return encodes;
     }
