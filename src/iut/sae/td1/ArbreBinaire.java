@@ -135,20 +135,20 @@ public class ArbreBinaire {
 
     /**
      * Convertit un tableau de chaînes de caractères en un tableau de chaînes de caractères binaires.
-     * @param chaines Le tableau de chaînes de caractères à convertir.
+     * @param caractere Le tableau de chaînes de caractères à convertir.
      * @return Le tableau de chaînes de caractères binaires.
      */
-    public static String[] convertirEnBinaireAvecGetBytes(String[] chaines) {
-        String[] encode = new String[chaines.length];
-        for (int i = 0; i < chaines.length; i++) {
-            byte[] octets = chaines[i].getBytes(StandardCharsets.UTF_8);
+    public static String[] convertirEnBinaireAvecGetBytes(String[] caractere) {
+        String[] encodes = new String[caractere.length];
+        for (int indexCaractere = 0; indexCaractere < caractere.length; indexCaractere++) {
+            byte[] caracteresBinaire = caractere[indexCaractere].getBytes(StandardCharsets.UTF_8);
             StringBuilder resultat = new StringBuilder();
-            for (byte b : octets) {
-                resultat.append(String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0'));
+            for (byte compteur : caracteresBinaire) {
+                resultat.append(String.format("%8s", Integer.toBinaryString(compteur)).replace(' ', '0'));
             }
-            encode[i] = resultat.toString();
+            encodes[indexCaractere] = resultat.toString();
         }
-        return encode;
+        return encodes;
     }
 
     /**
