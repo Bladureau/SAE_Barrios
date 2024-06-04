@@ -2,7 +2,7 @@
  * CalculCaractere.java                                     30 avril 2024
  * IUT de Rodez, TD1, pas de copyright
  */
-package iut.sae.td1.reel;
+package iut.sae.td1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

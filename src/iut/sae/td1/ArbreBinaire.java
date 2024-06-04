@@ -2,7 +2,7 @@
  * ArbreBinaire.java                                     14 mai 2024
  * IUT de Rodez, TD1, pas de copyright
  */
-package iut.sae.td1.reel;
+package iut.sae.td1;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
