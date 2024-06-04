@@ -127,7 +127,7 @@ public class ArbreBinaire {
             code.setLength(code.length() - 1);
         }
     }
-
+    
     /**
      * Affiche les codes pour chaque symbole.
      * @param codes Les codes pour chaque symbole.
