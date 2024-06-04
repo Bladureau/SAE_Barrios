@@ -58,7 +58,7 @@ class Node implements Comparable<Node> {
  */
 public class Huffman {
     static char[] symboles = {'a', 'b', 'c', 'd'};
-    static double[] frequences = {0.10, 0.50, 0.30, 0.30};
+    static double[] frequences = {0.20, 0.40, 0.30, 0.30};
 
     /**
      * Crée un arbre de Huffman a partir des symboles et leurs fréquences.
@@ -72,9 +72,6 @@ public class Huffman {
         for (int i = 0; i < symboles.length; i++) {
             nodes.add(new Node(symboles[i], frequences[i]));
         }
-
-        // Trier la liste des nodes par fréquence
-        Collections.sort(nodes);
 
         // Construire l'arbre de Huffman en combinant de manière répétée les deux nodes ayant les fréquences les plus faibles.
         while (nodes.size() > 1) {

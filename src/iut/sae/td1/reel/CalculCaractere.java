@@ -16,7 +16,7 @@ public class CalculCaractere {
     public static String[] caracteresTemp = new String[257];
     
     /** La fréquence du caractère. */
-    public double[] frequences = {};
+    public double[] frequences;
 
     /** Nombre de caracteres différents dans le fichier. */
     public static int nbCaracteresDifferents;
@@ -30,6 +30,8 @@ public class CalculCaractere {
     /** Nombre total de caractères dans le fichier texte */
     public static int nbCaracteresTotal;
     
+    
+
     /**
      * Extraie toutes les lettres d'un fichier.
      * @param fichier Le nom du fichier qui doit être analysé.
@@ -130,22 +132,5 @@ public class CalculCaractere {
      * @throws IOException si le fichier n'est pas détecter ou qu'il y a un probleme de lecture
      */
     public static void main(String[] args) throws IOException {
-        String fichier = "fichierACompter.txt";
-        
-        caracteresTemp = extraireLettresTableauString(fichier);
-        nbCaracteresDifferents = Integer.parseInt(caracteresTemp[256]);
-        occurenceCaracteres = new double[nbCaracteresDifferents];
-        caracteres = new String[nbCaracteresDifferents];
-        
-        for (int i = 0; i < caracteres.length; i++) {
-            caracteres[i] = caracteresTemp[i];
-        }
-        
-        occurenceCaracteres = nombreOccurencesLettres(caracteres, fichier);
-        tri_insertion();
-        calculerTauxApparition();
-        for (int i = 0; i < caracteres.length; i++) {
-            System.out.printf("%s : %.3f \n", caracteres[i], occurenceCaracteres[i]);
-        }
     }
 }
