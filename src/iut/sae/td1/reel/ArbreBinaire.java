@@ -1,3 +1,7 @@
+/*
+ * ArbreBinaire.java                                     14 mai 2024
+ * IUT de Rodez, TD1, pas de copyright
+ */
 package iut.sae.td1.reel;
 
 import java.io.IOException;
@@ -43,9 +47,14 @@ class Node implements Comparable<Node> {
     }
 }
 /**
- * 
- * @author BONAFIS Louis, MANZAN--MONS Tess, LADUREAU Baptiste
- *         DAURES Johan, ALIBERT Marylous
+ * Créée un arbre binaire et sortir le code de Huffman correspondant
+ * a une lettre.
+ * @author MANZAN--MONS Tess
+ * @author LADUREAU Baptiste
+ * @author BONAFIS Louis
+ * @author ALIBERT Marylou
+ * @author DAURES Johan
+ * @version 2.0
  */
 public class ArbreBinaire {
 
@@ -87,6 +96,7 @@ public class ArbreBinaire {
         String[] codes = new String[caracteres.length];
         StringBuilder code = new StringBuilder();
         dfs(racine, code, codes, caracteres);
+        CalculCaractere.triInsertionTableau();
         return codes;
     }
 
@@ -125,16 +135,18 @@ public class ArbreBinaire {
      */
     public static void printCodes(String[] codes, String[] caracteres) {
         for (int i = 0; i < caracteres.length; i++) {
-            if (caracteres[i].isBlank()) {
+            if (caracteres[i].equals(" ")) {
                 caracteres[i] = "espace";
+            } else if(caracteres[i].equals("\n") || caracteres[i].equals("\r")){
+                caracteres[i] = "retour chariot";   
             }
             System.out.println("codeHuffman = " + codes[i] + " ; encode = ? " + "caractere = " + caracteres[i]);
         }
     }
 
     /**
-     * Main méthode pour tester la classe Huffman.
-     * @param args Les arguments de la ligne de commande.
+     * Main méthode pour tester la classe ArbreBinaire.
+     * @param args argument non utilisé
      */
     public static void main(String[] args) throws IOException {
         // Read the text file and store the characters and their frequencies in two arrays
@@ -153,7 +165,7 @@ public class ArbreBinaire {
         }
         
         occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichier);
-        CalculCaractere.tri_insertion();
+        CalculCaractere.triInsertionTableau();
         CalculCaractere.calculerTauxApparition();
 
         // Create the Huffman tree and generate the Huffman codes

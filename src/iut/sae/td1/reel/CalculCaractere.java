@@ -1,3 +1,7 @@
+/*
+ * CalculCaractere.java                                     30 avril 2024
+ * IUT de Rodez, TD1, pas de copyright
+ */
 package iut.sae.td1.reel;
 
 import java.io.BufferedReader;
@@ -5,10 +9,14 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * La classe CalculCaractere contient des méthodes pour compter les occurrences d'un caractère spécifique dans une chaîne,
- * extraire les lettres d'un fichier dans un tableau de String, compter les occurrences de chaque lettre dans le tableau,
- * trier les lettres par leur taux d'apparition, calculer les taux d'apparition de chaque lettre,
- * et assembler un HashMap contenant une lettre et son taux d'apparition.
+ * La classe CalculCaractere sert a calculer le nombre d'appartition
+ * d'une lettre dans un fichier texte.
+ * @author MANZAN--MONS Tess
+ * @author LADUREAU Baptiste
+ * @author BONAFIS Louis
+ * @author ALIBERT Marylou
+ * @author DAURES Johan
+ * @version 3.0
  */
 public class CalculCaractere {
 
@@ -27,10 +35,8 @@ public class CalculCaractere {
     /** Liste des caractères a encoder. */
     public static String[] caracteres;
 
-    /** Nombre total de caractères dans le fichier texte */
+    /** Nombre total de caractères dans le fichier texte. */
     public static int nbCaracteresTotal;
-    
-    
 
     /**
      * Extraie toutes les lettres d'un fichier.
@@ -58,9 +64,9 @@ public class CalculCaractere {
                         caracteresTemp[indice] = String.valueOf(lettre);
                         indice++;
                     }
-                    //System.out.print(caracteres[j]);
                     nbCaracteresTotal++;
                 }
+                System.out.println(indice);
                 caracteresTemp[256] = Integer.toString(indice);
                 return caracteresTemp;
         } catch (IOException e) {                                   
@@ -99,9 +105,9 @@ public class CalculCaractere {
     }
 
     /**
-     * 
+     * Permet de trier les tableaux caracteres et occurenceCaracteres
      */
-    public static void tri_insertion() {
+    public static void triInsertionTableau() {
         int taille = occurenceCaracteres.length;
         for (int i = 1; i < taille; i++) {
             double indexOccurences = occurenceCaracteres[i];
@@ -118,19 +124,11 @@ public class CalculCaractere {
     }
      
     /**
-     * 
+     * Calcul le taux d'apparition de chaque lettre
      */
     public static void calculerTauxApparition() {
         for (int i = 0; i < occurenceCaracteres.length; i++) {
             occurenceCaracteres[i] = occurenceCaracteres[i] / nbCaracteresTotal;
         }
-    }
-
-    /**
-     * 
-     * @param args
-     * @throws IOException si le fichier n'est pas détecter ou qu'il y a un probleme de lecture
-     */
-    public static void main(String[] args) throws IOException {
     }
 }
