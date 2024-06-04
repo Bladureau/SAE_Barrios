@@ -5,6 +5,7 @@
 package iut.sae.td1.reel;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -127,20 +128,34 @@ public class ArbreBinaire {
             code.setLength(code.length() - 1);
         }
     }
-    
+
+    public static String[] convertirEnBinaireAvecGetBytes(String[] chaines) {
+        String[] encode = new String[chaines.length];
+        for (int i = 0; i < chaines.length; i++) {
+            byte[] octets = chaines[i].getBytes(StandardCharsets.UTF_8);
+            StringBuilder resultat = new StringBuilder();
+            for (byte b : octets) {
+                resultat.append(String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0'));
+            }
+            encode[i] = resultat.toString();
+        }
+        return encode;
+    }
+
+
     /**
      * Affiche les codes pour chaque symbole.
      * @param codes Les codes pour chaque symbole.
      * @param caracteres Les symboles a encoder.
      */
-    public static void printCodes(String[] codes, String[] caracteres) {
+    public static void printCodes(String[] codes, String[] encodes, String[] caracteres) {
         for (int i = 0; i < caracteres.length; i++) {
             if (caracteres[i].equals(" ")) {
                 caracteres[i] = "espace";
             } else if(caracteres[i].equals("\n") || caracteres[i].equals("\r")){
                 caracteres[i] = "retour chariot";   
             }
-            System.out.println("codeHuffman = " + codes[i] + " ; encode = ? " + "caractere = " + caracteres[i]);
+            System.out.println("codeHuffman = " + codes[i] + " ; encode = " + encodes[i] + " caractere = " + caracteres[i]);
         }
     }
 
@@ -154,11 +169,15 @@ public class ArbreBinaire {
         
         CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichier);
         String[] caracteresTemp = CalculCaractere.caracteresTemp;
+
         CalculCaractere.nbCaracteresDifferents = Integer.parseInt(CalculCaractere.caracteresTemp[256]);
+
         CalculCaractere.occurenceCaracteres = new double[CalculCaractere.nbCaracteresDifferents];
         double[] occurenceCaracteres = CalculCaractere.occurenceCaracteres;
+
         CalculCaractere.caracteres = new String[CalculCaractere.nbCaracteresDifferents];
         String[] caracteres = CalculCaractere.caracteres;
+
         
         for (int i = 0; i < caracteres.length; i++) {
             caracteres[i] = caracteresTemp[i];
@@ -167,12 +186,14 @@ public class ArbreBinaire {
         occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichier);
         CalculCaractere.triInsertionTableau();
         CalculCaractere.calculerTauxApparition();
+        
+        String[] encodes = convertirEnBinaireAvecGetBytes(caracteres);
 
         // Create the Huffman tree and generate the Huffman codes
         Node racine = createTree(caracteres, occurenceCaracteres);
         String[] codes = createCode(racine, caracteres);
 
         // Print the Huffman codes for each character
-        printCodes(codes, caracteres);
+        printCodes(codes, encodes, caracteres);
     }
 }
