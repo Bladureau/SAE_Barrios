@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -68,6 +67,8 @@ class Node implements Comparable<Node> {
  * @version 2.0
  */
 public class ArbreBinaire {
+
+    
 
     /**
      * Crée un arbre de Huffman a partir des symboles et leurs fréquences.
@@ -158,13 +159,15 @@ public class ArbreBinaire {
 
     /**
      * Permet d'écrire le code de Huffman, l'encodage UFT-8 du 
-     * caractere ainsi que le caracteres dans un 
-     * fichier texte prédéfini.
-     * @param codes
-     * @param encodes
-     * @param caracteres
-     * @param nomFichier
-     * @throws IOException
+     * caractere ainsi que le caracteres dans un fichier texte
+     * prédéfini.
+     * @param codes Les codes de Huffman
+     * @param encodes l'encodage UTF-8 du caractere
+     * @param caracteres le caractere
+     * @param nomFichier le nom du fichier dans lequel il faut mettre
+     *                   les informations précédentes.
+     * @throws IOException si le fichier n'est pas détecter ou qu'il 
+     *                     y a un probleme de lecture
      */
     public static void sauvegarderArbre(String[] codes, String[] encodes, String[] caracteres, String nomFichier) throws IOException {
         try (BufferedWriter ecrivain = new BufferedWriter(new FileWriter(nomFichier))) {
@@ -187,21 +190,33 @@ public class ArbreBinaire {
     public static void main(String[] args) throws IOException {
         // Read the text file and store the characters and their frequencies in two arrays
         Scanner analyseurEntree = new Scanner(System.in);
-        String fichier;
+        String fichierSource;
+        String fichierDestination;
          
         System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.extension) : ");
-        fichier = analyseurEntree.nextLine();
-        System.out.print("Entrez le nom du fichier de destination (format : nom_du_fichier.extension) : ");
-        fichier = analyseurEntree.nextLine();
+        fichierSource = analyseurEntree.nextLine();
+        System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.extension) : ");
+        fichierDestination = analyseurEntree.nextLine();
 
-        File fichierAanalyser = new File(fichier);
-
-        if (!fichierAanalyser.exists()) {
-            System.out.println("Erreur : Le fichier " + fichier + " n'existe pas.");
+        File fileSource = new File(fichierSource);
+        
+        if (!fileSource.exists()) {
+            System.out.print("\nErreur : Le fichier " + fichierSource + " n'existe pas.");
             return;
         }
 
-        CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichier);
+        File fileDestination = new File(fichierDestination);
+        
+        if (!fileDestination.exists()) {
+            System.out.println("\nErreur : Le fichier " + fichierDestination + " n'existe pas.");
+            return;
+        }
+
+        if (fichierSource.equals(fichierDestination)) {
+            System.out.println("\nErreur : Le fichier source et le fichier de destination sont les mêmes");
+        }
+
+        CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichierSource);
         String[] caracteresTemp = CalculCaractere.caracteresTemp;
         
         CalculCaractere.nbCaracteresDifferents = Integer.parseInt(CalculCaractere.caracteresTemp[256]);
@@ -216,7 +231,7 @@ public class ArbreBinaire {
             caracteres[i] = caracteresTemp[i];
         }
         
-        occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichier);
+        occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichierSource);
         CalculCaractere.calculerTauxApparition();
         
         String[] encodes = convertirEnBinaireAvecGetBytes(caracteres);
@@ -225,8 +240,7 @@ public class ArbreBinaire {
         Node racineTemporaire = genererArbre(caracteres, occurenceCaracteres);
         String[] codesHuffman = genererCode(racineTemporaire, caracteres);
 
-        String nomFichier = "fichierDestination.txt"; // Nom du fichier de destination
-        sauvegarderArbre(codesHuffman, encodes, caracteres, nomFichier);
+        sauvegarderArbre(codesHuffman, encodes, caracteres, fichierDestination);
         
         analyseurEntree.close();
     }
