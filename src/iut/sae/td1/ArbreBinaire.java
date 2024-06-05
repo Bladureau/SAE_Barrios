@@ -7,7 +7,6 @@ package iut.sae.td1;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -200,10 +199,10 @@ public class ArbreBinaire {
         String[] encodes = convertirEnBinaireAvecGetBytes(caracteres);
         
         // Crée l'arbre de Huffman et genere les codeHuffman
-        Node racine = genererArbre(caracteres, occurenceCaracteres);
-        String[] codesHuffman = genererCode(racine, caracteres);
+        Node racineTemporaire = genererArbre(caracteres, occurenceCaracteres);
+        String[] codesHuffman = genererCode(racineTemporaire, caracteres);
         CalculCaractere.trierCodes(codesHuffman);
-
+        
         // Affiche le code Huffman, le code du caractere et le caractere.
         affichierCode(codesHuffman, encodes, caracteres);
         
