@@ -4,15 +4,9 @@
  */
 package iut.sae.td1;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Classe représentant un noeud dans l'arbre de Huffman.
@@ -42,6 +36,7 @@ class Node implements Comparable<Node> {
         this.gauche = null;
         this.droite = null;
     }
+
 
     /**
      * Méthode qui compare deux nodes en fonction de leur fréquence.
@@ -183,65 +178,160 @@ public class ArbreBinaire {
     }
 
     /**
+     * Cette méthode lit un fichier texte contenant une arborescence
+     * et construit la structure de données arborescente du code de
+     * Huffman en mémoire.
+     * @param filename
+     * @return
+     * @throws IOException
+     */
+    public static Node readHuffmanTreeFromFile(String filename) throws IOException {
+        Node root = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(" ");
+                if (parts[0].equals("NODE")) {
+                    Node node = new Node(parts[1], Double.parseDouble(parts[2]));
+                    if (root == null) {
+                        root = node;
+                    } else {
+                        Node parent = findParent(root, parts[3]);
+                        if (parent != null) {
+                            if (parts[4].equals("LEFT")) {
+                                parent.gauche = node;
+                            } else {
+                                parent.droite = node;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+    private static Node findParent(Node node, String parentName) {
+        if (node.caractere.equals(parentName)) {
+            return node;
+        } else {
+            Node left = findParent(node.gauche, parentName);
+            if (left != null) {
+                return left;
+            } else {
+                return findParent(node.droite, parentName);
+            }
+        }
+    }
+
+    /**
+     * Encode un fichier texte à l'aide de l'arborescence de Huffman.
+     * @param fichierSource le fichier texte à encoder.
+     * @param fichierDestination le fichier compressé en sortie.
+     * @throws IOException si une erreur d'entrée/sortie se produit.
+     */
+    public static void encoderFichier(String fichierSource, String fichierDestination) throws IOException {
+        // Étape 1 : Extraire les caractères et leurs fréquences du fichier source.
+        String[] caracteres = CalculCaractere.extraireLettresTableauString(fichierSource);
+        double[] occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichierSource);
+
+        // Étape 2 : Générer l'arbre de Huffman.
+        Node racine = genererArbre(caracteres, occurenceCaracteres);
+
+        // Étape 3 : Générer les codes de Huffman pour chaque caractère.
+        String[] codesHuffman = genererCode(racine, caracteres);
+
+        // Étape 4 : Lire le fichier source et encoder chaque caractère.
+        StringBuilder encodedText = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(fichierSource))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                for (char c : line.toCharArray()) {
+                    encodedText.append(codesHuffman[c]);
+                }
+            }
+        }
+
+        // Étape 5 : Écrire le fichier compressé en sortie.
+        byte[] bytes = new byte[(encodedText.length() + 7) / 8];
+        int index = 0;
+        for (int i = 0; i < encodedText.length(); i += 8) {
+            byte b = 0;
+            for (int j = 0; j < 8; j++) {
+                if (i + j < encodedText.length()) {
+                    b = (byte) (b << 1 | (encodedText.charAt(i + j) == '1' ? 1 : 0));
+                }
+            }
+            bytes[index++] = b;
+        }
+
+        try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fichierDestination))) {
+            bos.write(bytes);
+        }
+
+        // Afficher la taille des deux fichiers et le taux de compression
+        long inputFileSize = new File(fichierSource).length();
+        long outputFileSize = new File(fichierDestination).length();
+        double compressionRatio = (1.0 - (double) outputFileSize / inputFileSize) * 100;
+
+        System.out.println("Taille du fichier source : " + inputFileSize + " bytes");
+        System.out.println("Taille du fichier compressé : " + outputFileSize + " bytes");
+        System.out.println("Taux de compression : " + String.format("%.2f", compressionRatio) + "%");
+    }
+
+    /**
      * Main méthode pour tester la classe ArbreBinaire.
      * @param args argument non utilisé
      */
-    @SuppressWarnings("resource")
     public static void main(String[] args) throws IOException {
-        // Read the text file and store the characters and their frequencies in two arrays
         Scanner analyseurEntree = new Scanner(System.in);
-        String fichierSource;
-        String fichierDestination;
-         
-        System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.extension) : ");
-        fichierSource = analyseurEntree.nextLine();
-        System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.extension) : ");
-        fichierDestination = analyseurEntree.nextLine();
+
+        System.out.println("Sélectionnez une action :");
+        System.out.println("1. Compression");
+        System.out.println("2. Décompression");
+        System.out.print("Votre choix : ");
+
+        int choix = analyseurEntree.nextInt();
+        analyseurEntree.nextLine(); // Consommer le retour chariot
+
+        System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
+        String fichierSource = analyseurEntree.nextLine();
+        System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.bin) : ");
+        String fichierDestination = analyseurEntree.nextLine();
 
         File fileSource = new File(fichierSource);
-        
-        if (!fileSource.exists()) {
-            System.err.print("\nErreur : Le fichier " + fichierSource + " n'existe pas.");
-            return;
-        }
-
         File fileDestination = new File(fichierDestination);
-        
-        if (!fileDestination.exists()) {
-            System.err.println("\nErreur : Le fichier " + fichierDestination + " n'existe pas.");
+
+        if (!fileSource.exists() || !fileDestination.exists() || fichierSource.equals(fichierDestination)) {
+            System.err.println("Erreur : fichier source ou destination invalide");
+            analyseurEntree.close();
             return;
         }
-
-        if (fichierSource.equals(fichierDestination)) {
-            System.err.println("\nErreur : Le fichier source et le fichier de destination sont les mêmes");
-        }
-
-        CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichierSource);
-        String[] caracteresTemp = CalculCaractere.caracteresTemp;
         
-        CalculCaractere.nbCaracteresDifferents = Integer.parseInt(CalculCaractere.caracteresTemp[256]);
-        
-        CalculCaractere.occurenceCaracteres = new double[CalculCaractere.nbCaracteresDifferents];
-        double[] occurenceCaracteres = CalculCaractere.occurenceCaracteres; 
-        
-        CalculCaractere.caracteres = new String[CalculCaractere.nbCaracteresDifferents];
-        String[] caracteres = CalculCaractere.caracteres;
-        
-        for (int i = 0; i < caracteres.length; i++) {
-            caracteres[i] = caracteresTemp[i];
-        }
-        
-        occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichierSource);
-        CalculCaractere.calculerTauxApparition();
+        String[] caracteres = CalculCaractere.extraireLettresTableauString(fichierSource);
+        double[] occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichierSource);
         
         String[] encodes = convertirEnBinaireAvecGetBytes(caracteres);
+        Node racine = genererArbre(caracteres, occurenceCaracteres);
+        String[] codesHuffman = genererCode(racine, caracteres);
         
-        // Crée l'arbre de Huffman et genere les codeHuffman
-        Node racineTemporaire = genererArbre(caracteres, occurenceCaracteres);
-        String[] codesHuffman = genererCode(racineTemporaire, caracteres);
-
         sauvegarderArbre(codesHuffman, encodes, caracteres, fichierDestination);
         
+        readHuffmanTreeFromFile(fichierDestination);
+
+        switch (choix) {
+            case 1:
+                encoderFichier(fichierSource, fichierDestination);
+                
+                break;
+            case 2:
+                
+                break;
+            default:
+                System.out.println("Choix invalide.");
+        }
+
+
         analyseurEntree.close();
     }
 }

@@ -7,6 +7,7 @@ package iut.sae.td1;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * La classe CalculCaractere sert a calculer le nombre d'appartition
@@ -19,10 +20,7 @@ import java.io.IOException;
  * @version 3.0
  */
 public class CalculCaractere {
-
-    /** Liste des caractères temporaire. */
-    public static String[] caracteresTemp = new String[257];
-
+    
     /** La fréquence du caractère. */
     public static double[] frequences;
 
@@ -45,33 +43,25 @@ public class CalculCaractere {
      * @throws IOException si le fichier n'est pas détecter ou qu'il y a un probleme de lecture
      */
     public static String[] extraireLettresTableauString(String fichier) throws IOException {
-        try (FileReader fr = new FileReader(fichier);               // Ouvre le fichier spécifié
-        BufferedReader br = new BufferedReader(fr)) {          // Lit le fichier défini dans le FileReader
-           int c;
-           int indice = 0;
-           nbCaracteresTotal = 0;
-           boolean estPresent = false;
-
-           while ((c = br.read()) != -1) {                         // Lis le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
-               char lettre = (char) c;                             // Converti c en char puis on le mets dans la variable lettre
-               estPresent = false;
-               for (int i = 0; i < caracteresTemp.length; i++) {
-                   if (String.valueOf(lettre).equals(caracteresTemp[i])) {
-                       estPresent = true;
-                       break;
+        String[] caracteres = new String[257];
+        int indice = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(fichier))) {
+            int c;
+            while ((c = br.read()) != -1) {
+                char lettre = (char) c;
+                boolean estPresent = false;
+                for (int i = 0; i < indice; i++) {
+                    if (String.valueOf(lettre).equals(caracteres[i])) {
+                        estPresent = true;
+                        break;
                     }
                 }
                 if (!estPresent) {
-                    caracteresTemp[indice] = String.valueOf(lettre);
+                    caracteres[indice] = String.valueOf(lettre);
                     indice++;
                 }
-                nbCaracteresTotal++;
             }
-            caracteresTemp[256] = Integer.toString(indice);
-            return caracteresTemp;
-        } catch (IOException e) {                                   // Gestion des exceptions
-            System.err.println("Erreur lors de la lecture du fichier : " + e.getMessage());
-            return null;
+            return Arrays.copyOf(caracteres, indice);
         }
     }
 
@@ -82,25 +72,20 @@ public class CalculCaractere {
     * @return un tableau de double contenant les fréquences.
     * @throws IOException si le fichier n'est pas détecter ou qu'il y a un probleme de lecture
     */
-    public static double[] nombreOccurencesLettres(String[] caracteres, String fichier) {
-    try (FileReader fr = new FileReader(fichier);               // Ouvre le fichier spécifié
-            BufferedReader br = new BufferedReader(fr)) {          // Lit le fichier défini dans le FileReader
-            double[] nbOccurences = new double[caracteres.length];
+    public static double[] nombreOccurencesLettres(String[] caracteres, String fichier) throws IOException {
+        double[] occurences = new double[caracteres.length];
+        try (BufferedReader br = new BufferedReader(new FileReader(fichier))) {
             int c;
-
-            while ((c = br.read()) != -1) {                         // Lis le fichier caractères par caractères, tant qu'il ne rencontre pas la fin du fichier
-                char lettre = (char) c;                             // Converti c en char puis on le mets dans la variable lettre
+            while ((c = br.read()) != -1) {
+                char lettre = (char) c;
                 for (int i = 0; i < caracteres.length; i++) {
                     if (String.valueOf(lettre).equals(caracteres[i])) {
-                        nbOccurences[i] += 1;
+                        occurences[i]++;
                         break;
                     }
                 }
             }
-            return nbOccurences;
-        } catch (IOException e) {
-            System.err.println("Erreur lors de la lecture du fichier : " + e.getMessage());
-            return null;
+            return occurences;
         }
     }
 
