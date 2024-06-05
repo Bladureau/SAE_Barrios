@@ -105,11 +105,6 @@ public class CalculCaractere {
     }
 
     /**
-    * Trie le tableau de codes de Huffman.
-    * @param codes Le tableau de codes de Huffman.
-    */
-
-    /**
     * Calcul le taux d'apparition de chaque lettre
     */
     public static void calculerTauxApparition() {

@@ -4,11 +4,14 @@
  */
 package iut.sae.td1;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -53,6 +56,7 @@ class Node implements Comparable<Node> {
         return Double.compare(this.frequence, autre.frequence);
     }
 }
+
 /**
  * Créée un arbre binaire et sortir le code de Huffman correspondant
  * a une lettre ainsi que le code binaire du caractère.
@@ -153,18 +157,25 @@ public class ArbreBinaire {
     }
 
     /**
-     * Affiche les codes pour chaque symbole.
-     * @param codes Les codes pour chaque symbole.
-     * @param caracteres Les symboles a encoder.
+     * Permet d'écrire le code de Huffman, l'encodage UFT-8 du 
+     * caractere ainsi que le caracteres dans un 
+     * fichier texte prédéfini.
+     * @param codes
+     * @param encodes
+     * @param caracteres
+     * @param nomFichier
+     * @throws IOException
      */
-    public static void affichierCode(String[] codes, String[] encodes, String[] caracteres) {
-        for (int i = 0; i < caracteres.length; i++) {
-            if (caracteres[i].equals(" ")) {
-                caracteres[i] = "espace";
-            } else if(caracteres[i].equals("\n") || caracteres[i].equals("\r")){
-                caracteres[i] = "retour chariot";   
+    public static void sauvegarderArbre(String[] codes, String[] encodes, String[] caracteres, String nomFichier) throws IOException {
+        try (BufferedWriter ecrivain = new BufferedWriter(new FileWriter(nomFichier))) {
+            for (int j = 0; j < caracteres.length; j++) {
+                if (caracteres[j].equals(" ")) {
+                    caracteres[j] = "espace";
+                } else if(caracteres[j].equals("\n") || caracteres[j].equals("\r")){
+                    caracteres[j] = "retour chariot";
+                }
+                ecrivain.write("codeHuffman = " + codes[j] + " ; encode = " + encodes[j] + " ; caractere = " + caracteres[j] + "\n");
             }
-            System.out.println("codeHuffman = " + codes[i] + " ; encode = " + encodes[i] + " ; caractere = " + caracteres[i]);
         }
     }
 
@@ -176,9 +187,13 @@ public class ArbreBinaire {
     public static void main(String[] args) throws IOException {
         // Read the text file and store the characters and their frequencies in two arrays
         Scanner analyseurEntree = new Scanner(System.in);
-        
-        System.out.print("Entrez le nom du fichier a analyser (format : nom_du_fichier.extension) : ");
-        String fichier = analyseurEntree.nextLine();
+        String fichier;
+         
+        System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.extension) : ");
+        fichier = analyseurEntree.nextLine();
+        System.out.print("Entrez le nom du fichier de destination (format : nom_du_fichier.extension) : ");
+        fichier = analyseurEntree.nextLine();
+
         File fichierAanalyser = new File(fichier);
 
         if (!fichierAanalyser.exists()) {
@@ -209,9 +224,9 @@ public class ArbreBinaire {
         // Crée l'arbre de Huffman et genere les codeHuffman
         Node racineTemporaire = genererArbre(caracteres, occurenceCaracteres);
         String[] codesHuffman = genererCode(racineTemporaire, caracteres);
-        
-        // Affiche le code Huffman, le code du caractere et le caractere.
-        affichierCode(codesHuffman, encodes, caracteres);
+
+        String nomFichier = "fichierDestination.txt"; // Nom du fichier de destination
+        sauvegarderArbre(codesHuffman, encodes, caracteres, nomFichier);
         
         analyseurEntree.close();
     }
