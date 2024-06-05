@@ -164,7 +164,7 @@ public class ArbreBinaire {
             } else if(caracteres[i].equals("\n") || caracteres[i].equals("\r")){
                 caracteres[i] = "retour chariot";   
             }
-            System.out.println("codeHuffman = " + codes[i] + " ; encode = " + encodes[i] + " caractere = " + caracteres[i]);
+            System.out.println("codeHuffman = " + codes[i] + " ; encode = " + encodes[i] + " ; caractere = " + caracteres[i]);
         }
     }
 
@@ -208,7 +208,7 @@ public class ArbreBinaire {
         Node racine = genererArbre(caracteres, occurenceCaracteres);
         String[] codes = genererCode(racine, caracteres);
 
-        // Print the Huffman codes for each character
+        // Affiche le code Huffman, le code du caractere et le caractere.
         affichierCode(codes, encodes, caracteres);
     }
 }
