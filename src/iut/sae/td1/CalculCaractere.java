@@ -66,7 +66,6 @@ public class CalculCaractere {
                     }
                     nbCaracteresTotal++;
                 }
-                System.out.println(indice);
                 caracteresTemp[256] = Integer.toString(indice);
                 return caracteresTemp;
         } catch (IOException e) {                                   
