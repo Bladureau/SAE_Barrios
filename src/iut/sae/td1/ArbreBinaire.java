@@ -201,19 +201,19 @@ public class ArbreBinaire {
         File fileSource = new File(fichierSource);
         
         if (!fileSource.exists()) {
-            System.out.print("\nErreur : Le fichier " + fichierSource + " n'existe pas.");
+            System.err.print("\nErreur : Le fichier " + fichierSource + " n'existe pas.");
             return;
         }
 
         File fileDestination = new File(fichierDestination);
         
         if (!fileDestination.exists()) {
-            System.out.println("\nErreur : Le fichier " + fichierDestination + " n'existe pas.");
+            System.err.println("\nErreur : Le fichier " + fichierDestination + " n'existe pas.");
             return;
         }
 
         if (fichierSource.equals(fichierDestination)) {
-            System.out.println("\nErreur : Le fichier source et le fichier de destination sont les mêmes");
+            System.err.println("\nErreur : Le fichier source et le fichier de destination sont les mêmes");
         }
 
         CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichierSource);
