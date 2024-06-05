@@ -7,6 +7,7 @@ package iut.sae.td1;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -76,7 +77,7 @@ public class ArbreBinaire {
         for (int i = 0; i < caracteres.length; i++) {
             nodes.add(new Node(caracteres[i], frequences[i]));
         }
-
+        
         // Construire l'arbre de Huffman en combinant de manière repetée les deux nodes ayant les fréquences les plus faibles.
         while (nodes.size() > 1) {
             Node gauche = nodes.remove(0);
@@ -102,7 +103,6 @@ public class ArbreBinaire {
         String[] codes = new String[caracteres.length];
         StringBuilder code = new StringBuilder();
         dfs(racine, code, codes, caracteres);
-        CalculCaractere.triInsertionTableau();
         return codes;
     }
 
@@ -110,12 +110,12 @@ public class ArbreBinaire {
      * Parcourt en profondeur l'arbre de Huffman et génère les codes pour chaque symbole.
      * @param node Le noeud courant.
      * @param code Le code courant.
-     * @param codes Les codes pour chaque symbole.
+     * @param codes Les codes de Huffman pour chaque symbole.
      * @param caracteres Les symboles a encoder.
      */
     private static void dfs(Node node, StringBuilder code, String[] codes, String[] caracteres) {
         if (node.gauche == null && node.droite == null) {
-            // Il s'agit d'un node feuille, il faut donc stocker le code de ce symbole
+            // Si on tombe sur une feuille, le code est renvoyé dans le tableau codes. 
             for (int i = 0; i < caracteres.length; i++) {
                 if (caracteres[i].equals(node.caractere)) {
                     codes[i] = code.toString();
@@ -123,7 +123,7 @@ public class ArbreBinaire {
                 }
             }
         } else {
-            // Il s'agit d'un node interne, continuez donc à construire le code en allant à gauche ou à droite
+            // Il s'agit d'un node interne, continuez cela continue à construire le code de Huffman en allant à gauche ou à droite.
             code.append('0');
             dfs(node.gauche, code, codes, caracteres);
             code.setLength(code.length() - 1);
@@ -175,40 +175,38 @@ public class ArbreBinaire {
     public static void main(String[] args) throws IOException {
         // Read the text file and store the characters and their frequencies in two arrays
         Scanner analyseurEntree = new Scanner(System.in);
-        String fichier;
         
         System.out.print("Entrez le nom du fichier a analyser (format : nom_du_fichier.extension) : ");
-        fichier = analyseurEntree.nextLine();
+        String fichier = analyseurEntree.nextLine();
 
-        analyseurEntree.close();
-        
         CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichier);
         String[] caracteresTemp = CalculCaractere.caracteresTemp;
-
+        
         CalculCaractere.nbCaracteresDifferents = Integer.parseInt(CalculCaractere.caracteresTemp[256]);
-
+        
         CalculCaractere.occurenceCaracteres = new double[CalculCaractere.nbCaracteresDifferents];
         double[] occurenceCaracteres = CalculCaractere.occurenceCaracteres; 
-
+        
         CalculCaractere.caracteres = new String[CalculCaractere.nbCaracteresDifferents];
         String[] caracteres = CalculCaractere.caracteres;
-
         
         for (int i = 0; i < caracteres.length; i++) {
             caracteres[i] = caracteresTemp[i];
         }
         
         occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichier);
-        CalculCaractere.triInsertionTableau();
         CalculCaractere.calculerTauxApparition();
         
         String[] encodes = convertirEnBinaireAvecGetBytes(caracteres);
-
-        // Create the Huffman tree and generate the Huffman codes
+        
+        // Crée l'arbre de Huffman et genere les codeHuffman
         Node racine = genererArbre(caracteres, occurenceCaracteres);
-        String[] codes = genererCode(racine, caracteres);
+        String[] codesHuffman = genererCode(racine, caracteres);
+        CalculCaractere.trierCodes(codesHuffman);
 
         // Affiche le code Huffman, le code du caractere et le caractere.
-        affichierCode(codes, encodes, caracteres);
+        affichierCode(codesHuffman, encodes, caracteres);
+        
+        analyseurEntree.close();
     }
 }

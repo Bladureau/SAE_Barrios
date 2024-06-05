@@ -7,6 +7,8 @@ package iut.sae.td1;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * La classe CalculCaractere sert a calculer le nombre d'appartition
@@ -104,21 +106,18 @@ public class CalculCaractere {
     }
 
     /**
-     * Permet de trier les tableaux caracteres et occurenceCaracteres
+     * Trie le tableau de codes de Huffman.
+     * @param codes Le tableau de codes de Huffman.
      */
-    public static void triInsertionTableau() {
-        int taille = occurenceCaracteres.length;
-        for (int i = 1; i < taille; i++) {
-            double indexOccurences = occurenceCaracteres[i];
-            int j = i-1;
-            while(j >= 0 && occurenceCaracteres[j] > indexOccurences) {
-                occurenceCaracteres[j+1] = occurenceCaracteres[j];
-                j--;
+    public static void trierCodes(String[] codes) {
+        Arrays.sort(codes, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return s1.length() - s2.length();
             }
-            occurenceCaracteres[j+1] = indexOccurences;
-        }  
+        });
     }
-     
+    
     /**
      * Calcul le taux d'apparition de chaque lettre
      */
