@@ -4,6 +4,7 @@
  */
 package iut.sae.td1;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -171,12 +172,19 @@ public class ArbreBinaire {
      * Main méthode pour tester la classe ArbreBinaire.
      * @param args argument non utilisé
      */
+    @SuppressWarnings("resource")
     public static void main(String[] args) throws IOException {
         // Read the text file and store the characters and their frequencies in two arrays
         Scanner analyseurEntree = new Scanner(System.in);
         
         System.out.print("Entrez le nom du fichier a analyser (format : nom_du_fichier.extension) : ");
         String fichier = analyseurEntree.nextLine();
+        File fichierAanalyser = new File(fichier);
+
+        if (!fichierAanalyser.exists()) {
+            System.out.println("Erreur : Le fichier " + fichier + " n'existe pas.");
+            return;
+        }
 
         CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichier);
         String[] caracteresTemp = CalculCaractere.caracteresTemp;
@@ -201,7 +209,6 @@ public class ArbreBinaire {
         // Crée l'arbre de Huffman et genere les codeHuffman
         Node racineTemporaire = genererArbre(caracteres, occurenceCaracteres);
         String[] codesHuffman = genererCode(racineTemporaire, caracteres);
-        CalculCaractere.trierCodes(codesHuffman);
         
         // Affiche le code Huffman, le code du caractere et le caractere.
         affichierCode(codesHuffman, encodes, caracteres);
