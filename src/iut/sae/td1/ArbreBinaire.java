@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Classe représentant un noeud dans l'arbre de Huffman.
@@ -173,7 +174,13 @@ public class ArbreBinaire {
      */
     public static void main(String[] args) throws IOException {
         // Read the text file and store the characters and their frequencies in two arrays
-        String fichier = "fichierACompter.txt";
+        Scanner analyseurEntree = new Scanner(System.in);
+        String fichier;
+        
+        System.out.print("Entrez le nom du fichier a analyser (format : nom_du_fichier.extension) : ");
+        fichier = analyseurEntree.nextLine();
+
+        analyseurEntree.close();
         
         CalculCaractere.caracteresTemp = CalculCaractere.extraireLettresTableauString(fichier);
         String[] caracteresTemp = CalculCaractere.caracteresTemp;
@@ -181,7 +188,7 @@ public class ArbreBinaire {
         CalculCaractere.nbCaracteresDifferents = Integer.parseInt(CalculCaractere.caracteresTemp[256]);
 
         CalculCaractere.occurenceCaracteres = new double[CalculCaractere.nbCaracteresDifferents];
-        double[] occurenceCaracteres = CalculCaractere.occurenceCaracteres;
+        double[] occurenceCaracteres = CalculCaractere.occurenceCaracteres; 
 
         CalculCaractere.caracteres = new String[CalculCaractere.nbCaracteresDifferents];
         String[] caracteres = CalculCaractere.caracteres;
