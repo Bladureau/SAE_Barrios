@@ -333,7 +333,6 @@ public class ArbreBinaire {
                 System.out.println("Choix invalide.");
         }
 
-
         analyseurEntree.close();
     }
 }

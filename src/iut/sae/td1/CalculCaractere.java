@@ -20,7 +20,7 @@ import java.util.Arrays;
  * @version 3.0
  */
 public class CalculCaractere {
-    
+
     /** La fréquence du caractère. */
     public static double[] frequences;
 
