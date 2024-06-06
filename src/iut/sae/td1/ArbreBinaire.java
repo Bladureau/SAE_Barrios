@@ -164,8 +164,15 @@ public class ArbreBinaire {
      * @throws IOException si le fichier n'est pas détecter ou qu'il 
      *                     y a un probleme de lecture
      */
-    public static void sauvegarderArbre(String[] codes, String[] encodes, String[] caracteres, String nomFichier) throws IOException {
-        try (BufferedWriter ecrivain = new BufferedWriter(new FileWriter(nomFichier))) {
+    public static void sauvegarderArbre(String fichierSource, String fichierDestination) throws IOException {
+        String[] caracteres = CalculCaractere.extraireLettresTableauString(fichierSource);
+        double[] occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichierSource);
+        Node racine = genererArbre(caracteres, occurenceCaracteres);
+        String[] codes = genererCode(racine, caracteres);
+
+        String[] encodes = convertirEnBinaireAvecGetBytes(codes);
+
+        try (BufferedWriter ecrivain = new BufferedWriter(new FileWriter(fichierDestination))) {
             for (int j = 0; j < caracteres.length; j++) {
                 if (caracteres[j].equals(" ")) {
                     caracteres[j] = "espace";
@@ -173,7 +180,8 @@ public class ArbreBinaire {
                     caracteres[j] = "retour chariot";
                 }
                 ecrivain.write("codeHuffman = " + codes[j] + " ; encode = " + encodes[j] + " ; caractere = " + caracteres[j] + "\n");
-            }
+                }
+            ecrivain.close();
         }
     }
 
@@ -208,6 +216,7 @@ public class ArbreBinaire {
                     }
                 }
             }
+            br.close();
         }
         return root;
     }
@@ -248,13 +257,12 @@ public class ArbreBinaire {
         try (BufferedReader br = new BufferedReader(new FileReader(fichierSource))) {
             String line;
             while ((line = br.readLine()) != null) {
-                for (int i = 0; i < codesHuffman.length; i++) {
-                    System.out.println(line);
-                }
                 for (char c : line.toCharArray()) {
                     encodedText.append(codesHuffman[c]);
+                    System.out.println(codesHuffman[c]);
                 }
             }
+            br.close();
         }
 
         // Étape 5 : Écrire le fichier compressé en sortie.
@@ -272,6 +280,7 @@ public class ArbreBinaire {
 
         try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(fichierDestination))) {
             bos.write(bytes);
+            bos.close();
         }
 
         // Afficher la taille des deux fichiers et le taux de compression
@@ -294,36 +303,54 @@ public class ArbreBinaire {
         System.out.println("Sélectionnez une action :");
         System.out.println("1. Compression");
         System.out.println("2. Décompression");
+        System.out.println("3. Sauvegarde de l'arbre");
+        System.out.println("4. Quitter l'application");
         System.out.print("Votre choix : ");
 
         int choix = analyseurEntree.nextInt();
         analyseurEntree.nextLine(); // Consommer le retour chariot
 
-        System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
-        String fichierSource = analyseurEntree.nextLine();
-        System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.bin) : ");
-        String fichierDestination = analyseurEntree.nextLine();
+        if (choix == 1) {       // Méthode avec des erreurs
+            System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
+            String fichierSource = analyseurEntree.nextLine();
+            System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.bin) : ");
+            String fichierDestination = analyseurEntree.nextLine();
+            encoderFichier(fichierSource, fichierDestination);
+            
+        }
 
+        if (choix == 2) {       // Méthode non implémenté
+            System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
+            String fichierSource = analyseurEntree.nextLine();
+            System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.bin) : ");
+            String fichierDestination = analyseurEntree.nextLine();
+        }
+
+        if (choix == 3) {
+            System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
+            String fichierSource = analyseurEntree.nextLine();
+            System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.txt) : ");
+            String fichierSauvegarde = analyseurEntree.nextLine();
+            sauvegarderArbre(fichierSource, fichierSauvegarde);
+            System.out.println("Fichier sauvegardé");
+        }
+
+        if (choix == 4) {
+            System.out.println("Au revoir");
+            System.exit(1);
+        }
+
+    
+        /*
         File fileSource = new File(fichierSource);
         File fileDestination = new File(fichierDestination);
 
-        if (!fileSource.exists() || !fileDestination.exists() || fichierSource.equals(fichierDestination)) {
+        if (!fileSource.exists() || !fileDestinationSauvegarde.exists() || fichierSource.equals(fichierDestination)) {
             System.err.println("Erreur : fichier source ou destination invalide");
             analyseurEntree.close();
             return;
         }
-
-        switch (choix) {
-            case 1:
-                encoderFichier(fichierSource, fichierDestination);
-                
-                break;
-            case 2:
-                
-                break;
-            default:
-                System.out.println("Choix invalide.");
-        }
+            */
 
         analyseurEntree.close();
     }
