@@ -63,8 +63,6 @@ class Node implements Comparable<Node> {
  */
 public class ArbreBinaire {
 
-    
-
     /**
      * Crée un arbre de Huffman a partir des symboles et leurs fréquences.
      * @param caracteres Les symboles a encoder (tableau de String).
@@ -74,6 +72,8 @@ public class ArbreBinaire {
     public static Node genererArbre(String[] caracteres, double[] frequences) {
         // Crée une liste de nodes, un pour chaque symbole et sa fréquence
         List<Node> nodes = new ArrayList<>();
+
+        // Boucle pour créer les nodes et les ajouter à la liste
         for (int i = 0; i < caracteres.length; i++) {
             nodes.add(new Node(caracteres[i], frequences[i]));
         }
@@ -123,7 +123,7 @@ public class ArbreBinaire {
                 }
             }
         } else {
-            // Il s'agit d'un node interne, continuez cela continue à construire le code de Huffman en allant à gauche ou à droite.
+            // Il s'agit d'un node interne, cela continue à construire le code de Huffman en allant à gauche ou à droite.
             code.append('0');
             dfs(node.gauche, code, codes, caracteres);
             code.setLength(code.length() - 1);
@@ -181,11 +181,12 @@ public class ArbreBinaire {
      * Cette méthode lit un fichier texte contenant une arborescence
      * et construit la structure de données arborescente du code de
      * Huffman en mémoire.
-     * @param filename
-     * @return
-     * @throws IOException
+     * @param filename le nom du fichier a lire.
+     * @return la racine de l'arbre de Huffman
+     * @throws IOException si le fichier n'est pas détecter ou qu'il 
+     *                     y a un probleme de lecture
      */
-    public static Node readHuffmanTreeFromFile(String filename) throws IOException {
+    public static Node lectureArbreHuffman(String filename) throws IOException {
         Node root = null;
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -228,7 +229,8 @@ public class ArbreBinaire {
      * Encode un fichier texte à l'aide de l'arborescence de Huffman.
      * @param fichierSource le fichier texte à encoder.
      * @param fichierDestination le fichier compressé en sortie.
-     * @throws IOException si une erreur d'entrée/sortie se produit.
+     * @throws IOException si le fichier n'est pas détecter ou qu'il 
+     *                     y a un probleme de lecture
      */
     public static void encoderFichier(String fichierSource, String fichierDestination) throws IOException {
         // Étape 1 : Extraire les caractères et leurs fréquences du fichier source.
@@ -307,7 +309,7 @@ public class ArbreBinaire {
             analyseurEntree.close();
             return;
         }
-        
+
         String[] caracteres = CalculCaractere.extraireLettresTableauString(fichierSource);
         double[] occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichierSource);
         
@@ -317,7 +319,7 @@ public class ArbreBinaire {
         
         sauvegarderArbre(codesHuffman, encodes, caracteres, fichierDestination);
         
-        readHuffmanTreeFromFile(fichierDestination);
+        lectureArbreHuffman(fichierDestination);
 
         switch (choix) {
             case 1:
