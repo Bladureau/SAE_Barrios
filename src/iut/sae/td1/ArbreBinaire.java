@@ -248,6 +248,9 @@ public class ArbreBinaire {
         try (BufferedReader br = new BufferedReader(new FileReader(fichierSource))) {
             String line;
             while ((line = br.readLine()) != null) {
+                for (int i = 0; i < codesHuffman.length; i++) {
+                    System.out.println(line);
+                }
                 for (char c : line.toCharArray()) {
                     encodedText.append(codesHuffman[c]);
                 }
@@ -309,17 +312,6 @@ public class ArbreBinaire {
             analyseurEntree.close();
             return;
         }
-
-        String[] caracteres = CalculCaractere.extraireLettresTableauString(fichierSource);
-        double[] occurenceCaracteres = CalculCaractere.nombreOccurencesLettres(caracteres, fichierSource);
-        
-        String[] encodes = convertirEnBinaireAvecGetBytes(caracteres);
-        Node racine = genererArbre(caracteres, occurenceCaracteres);
-        String[] codesHuffman = genererCode(racine, caracteres);
-        
-        sauvegarderArbre(codesHuffman, encodes, caracteres, fichierDestination);
-        
-        lectureArbreHuffman(fichierDestination);
 
         switch (choix) {
             case 1:
