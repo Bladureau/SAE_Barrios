@@ -221,6 +221,13 @@ public class ArbreBinaire {
         return root;
     }
 
+    /**
+     * Cette méthode recherche le noeud parent d'un noeud donné dans
+     * un arbre binaire, en parcourant l'arbre de manière récursive.
+     * @param node Le noeud courant dans la recherche 
+     * @param parentName Le nom du noeud parent à rechercher
+     * @return Le noeud parent ou null si aucun parent n'est trouvé.
+     */
     private static Node findParent(Node node, String parentName) {
         if (node.caractere.equals(parentName)) {
             return node;
@@ -239,7 +246,7 @@ public class ArbreBinaire {
      * @param fichierSource le fichier texte à encoder.
      * @param fichierDestination le fichier compressé en sortie.
      * @throws IOException si le fichier n'est pas détecter ou qu'il 
-     *                     y a un probleme de lecture
+     *                     y a un probleme de lecture.
      */
     public static void encoderFichier(String fichierSource, String fichierDestination) throws IOException {
         // Étape 1 : Extraire les caractères et leurs fréquences du fichier source.
@@ -293,65 +300,7 @@ public class ArbreBinaire {
         System.out.println("Taux de compression : " + String.format("%.2f", compressionRatio) + "%");
     }
 
-    /**
-     * Main méthode pour tester la classe ArbreBinaire.
-     * @param args argument non utilisé
-     */
-    public static void main(String[] args) throws IOException {
-        Scanner analyseurEntree = new Scanner(System.in);
-
-        System.out.println("Sélectionnez une action :");
-        System.out.println("1. Compression");
-        System.out.println("2. Décompression");
-        System.out.println("3. Sauvegarde de l'arbre");
-        System.out.println("4. Quitter l'application");
-        System.out.print("Votre choix : ");
-
-        int choix = analyseurEntree.nextInt();
-        analyseurEntree.nextLine(); // Consommer le retour chariot
-
-        if (choix == 1) {       // Méthode avec des erreurs
-            System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
-            String fichierSource = analyseurEntree.nextLine();
-            System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.bin) : ");
-            String fichierDestination = analyseurEntree.nextLine();
-            encoderFichier(fichierSource, fichierDestination);
-            
-        }
-
-        if (choix == 2) {       // Méthode non implémenté
-            System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
-            String fichierSource = analyseurEntree.nextLine();
-            System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.bin) : ");
-            String fichierDestination = analyseurEntree.nextLine();
-        }
-
-        if (choix == 3) {
-            System.out.print("Entrez le nom du fichier source (format : nom_du_fichier.txt) : ");
-            String fichierSource = analyseurEntree.nextLine();
-            System.out.print("\nEntrez le nom du fichier de destination (format : nom_du_fichier.txt) : ");
-            String fichierSauvegarde = analyseurEntree.nextLine();
-            sauvegarderArbre(fichierSource, fichierSauvegarde);
-            System.out.println("Fichier sauvegardé");
-        }
-
-        if (choix == 4) {
-            System.out.println("Au revoir");
-            System.exit(1);
-        }
-
-    
-        /*
-        File fileSource = new File(fichierSource);
-        File fileDestination = new File(fichierDestination);
-
-        if (!fileSource.exists() || !fileDestinationSauvegarde.exists() || fichierSource.equals(fichierDestination)) {
-            System.err.println("Erreur : fichier source ou destination invalide");
-            analyseurEntree.close();
-            return;
-        }
-            */
-
-        analyseurEntree.close();
+    public static void decoderFichier(String fichierSource, String fichierDestination) {
+        System.out.println("Méthode a implémenter");
     }
 }
